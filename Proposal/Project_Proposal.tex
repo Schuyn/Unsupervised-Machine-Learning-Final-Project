@@ -1,0 +1,26 @@
+1. NFL
+https://www.kaggle.com/competitions/nfl-big-data-bowl-2026-analytics
+2. NBA Draft
+https://www.kaggle.com/datasets/mattop/nba-draft-basketball-player-data-19892021
+3. Youtube-8M
+https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html
+4. make data count
+https://www.kaggle.com/competitions/make-data-count-finding-data-references
+
+
+1. NBA draft
+我们首先关注NBA选秀的数据。这个数据集包含了从1989年到2021年全部NBA新秀的数据，分为了'id', 'year', 'rank', 'overall_pick', 'team', 'player', 'college',
+'years_active', 'games', 'minutes_played', 'points', 'total_rebounds','assists', 'field_goal_percentage', '3_point_percentage',
+'free_throw_percentage', 'average_minutes_played', 'points_per_game','average_total_rebounds', 'average_assists', 'win_shares',
+'win_shares_per_48_minutes', 'box_plus_minus','value_over_replacement'这些维度。
+
+我们的目标是从这个数据集中通过分析球员前五年的box score，结合其顺位、出身大学和所在球队刻画出这个球员的潜力以及在联盟中的兑现程度（也就是发展路径），
+我们期望可以得到类似“超级新星”，“高开低走”和“默默无闻”等形状良好的簇。考虑到这种统计方式对于2017年之后的球员并不公平，因为他们实际上真正被选入联盟都没有够5年，
+因此我们决定使用1989-2017的数据来训练我们的模型，并直接使用2017年之后的新秀的数据作为模型泛化性能和稳定性能的考察。我们还期望使用这个模型来选出各个类型的球员的模板作为展示。
+
+我们这个项目的新颖之处在于以下几处：首先是这个数据集本身，它是三年前发布的数据集，很新颖，而且在kaggle上目前仍然只有四个用户对其进行了公开的讨论，而且绝大多数都只是EDA，并没有像我们这样
+真正利用了数据进行建模分析的；其次是我们使用的模型，我们期望在这个数据集上应用较为新颖的模型，但是我们目前尚未进行实际探索，并不知道哪个模型才是真正好的，我们计划使用多种聚类方法，
+然后通过结合主观的判断以及量化标准进行最终的选择；最后是我们的思想，自我接触篮球开始，联盟在近20年的时间里通过各种量化指标对球员进行了无微不至的分析，试图将他们解构，而却从未有
+任何分析师试图分析这个球员在自己职业路径上的探索和自我价值的实现，我们试图通过自己的研究，将到目前为止仍旧孤立的篮球数据分析方法进行革新，通过使用无监督学习的方式将球员的数据有机的结合起来。
+
+我们这个数据集比较小,只有212.4 kb，但是又不够小到我们能确定其会展现出好看的结果，从可行性上说这个数据是最好的，但是我们还有两个使用更大的数据集的idea，我们仍在纠结当中，希望可以得到您的帮助和意见。
