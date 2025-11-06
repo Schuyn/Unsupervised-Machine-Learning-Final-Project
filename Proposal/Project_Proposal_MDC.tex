@@ -1,0 +1,14 @@
+3. Make Data Count
+
+我们关注 “Make Data Count” 数据集。该数据集包含公开学术论文的基本信息、引用方式标签及原文件（.pdf/.xml）。我们不打算直接使用其中的 “primary/secondary” 标签，而是希望通过分析论文内容和引用关系，无监督地发现学术研究中的潜在模式与趋势。
+具体而言，我们将从 PDF/XML 中抽取 论文节点、数据集节点与引用上下文节点，规范化 DOI、标题和数据集名称，构建“论文–引用–数据集”三元关系图谱。节点特征将由 BERT 等模型生成高维语义嵌入，边权则通过文本向量间的语义相似度进行衡量。我们计划使用 图神经网络（GNN） 等方法对该图谱进行分析，以挖掘潜在模式，获得社区聚类的主题与引用模式，从而帮助研究者更好地理解学术研究中的数据集使用与引用行为。
+
+本项目的创新在于，一方面探索 无监督学习 在这一新型学术数据集上的潜力，另一方面结合 文本语义与引用关系 构建更丰富的学术知识图谱。这种图谱不仅能揭示显性的引用结构，也有助于识别隐含的学术关联与数据复用模式。
+
+目前我们仍在评估项目的可行性。我们对 知识图谱构建与社区发现方法 尚不熟悉，将该任务与以往的聚类经验结合可能存在一定挑战。此外，由于数据集缺乏明确的结构化特征，我们需要依赖大规模 NLP 模型 提取语义特征，这在数据预处理和词嵌入阶段都可能遇到技术与计算上的困难。
+
+We focus on the “Make Data Count” dataset, which contains basic information on publicly available academic papers, citation type labels, and the original files (.pdf/.xml). We do not intend to directly use the “primary/secondary” labels provided in the dataset. Instead, we aim to analyze the content and citation relationships of papers to discover, in an unsupervised manner, the underlying patterns and trends in academic research. Specifically, we will extract paper nodes, dataset nodes, and citation context nodes from the PDF/XML files, normalize the DOI, titles, and dataset names, and construct a “paper–citation–dataset” tripartite relational graph. Node features will be generated using high-dimensional semantic embeddings from models such as BERT, while edge weights will be measured through the semantic similarity between text vectors. We plan to apply Graph Neural Network (GNN) methods to analyze this graph, uncover latent patterns, identify community-level topics and citation behaviors, and thereby help researchers better understand dataset usage and citation practices in academic research.
+
+The novelty of this project lies in two aspects. First, it explores the potential of unsupervised learning on this new type of academic dataset. Second, it combines textual semantics and citation relationships to build a richer academic knowledge graph. Such a graph can reveal explicit citation structures as well as identify implicit scholarly connections and data reuse patterns.
+
+We are still evaluating the feasibility of this project. We are not yet familiar with knowledge graph construction and community detection methods, and integrating these tasks with our previous experience in clustering may present certain challenges. Furthermore, since the dataset lacks explicit structured features, we need to rely on large-scale NLP models to extract semantic representations, which may pose technical and computational challenges during data preprocessing and embedding generation.
