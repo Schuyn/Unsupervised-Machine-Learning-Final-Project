@@ -1,0 +1,8 @@
+games
+minutes_played
+points
+total_rebounds
+assists
+field_goal_percentage
+3_point_percentage
+free_throw_percentage
