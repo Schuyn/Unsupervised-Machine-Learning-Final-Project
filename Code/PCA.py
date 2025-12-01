@@ -2,7 +2,7 @@
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 16:51:01
 LastEditors: Schuyn 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-01 16:56:53
+LastEditTime: 2025-12-01 18:48:30
 FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/PCA.py
 Description: 
     Dimensionality Reduction Module for NBA Draft Analysis
@@ -101,7 +101,7 @@ class PCAAnalyzer:
         ax1 = axes[0]
         n_components = len(self.explained_variance)
         ax1.plot(range(1, n_components + 1), self.cumulative_variance * 100, 
-                 marker='o', linewidth=2, markersize=4, color='steelblue')
+                marker='o', linewidth=2, markersize=4, color='steelblue')
         
         # Add threshold lines
         thresholds = [80, 85, 90, 95]
@@ -109,10 +109,10 @@ class PCAAnalyzer:
         for threshold, color in zip(thresholds, colors):
             n_comp = np.argmax(self.cumulative_variance >= threshold/100) + 1
             ax1.axhline(y=threshold, color=color, linestyle='--', 
-                       linewidth=1.5, alpha=0.7,
-                       label=f'{threshold}% ({n_comp} comp.)')
+                    linewidth=1.5, alpha=0.7,
+                    label=f'{threshold}% ({n_comp} comp.)')
             ax1.axvline(x=n_comp, color=color, linestyle='--', 
-                       linewidth=1.5, alpha=0.7)
+                    linewidth=1.5, alpha=0.7)
         
         ax1.set_xlabel('Number of Components', fontsize=12, fontweight='bold')
         ax1.set_ylabel('Cumulative Explained Variance (%)', fontsize=12, fontweight='bold')
@@ -126,7 +126,7 @@ class PCAAnalyzer:
         ax2 = axes[1]
         n_bars = min(10, len(self.explained_variance))
         bars = ax2.bar(range(1, n_bars + 1), self.explained_variance[:n_bars] * 100, 
-                       color='coral', edgecolor='black', alpha=0.8)
+                    color='coral', edgecolor='black', alpha=0.8)
         
         # Add value labels
         for bar, var in zip(bars, self.explained_variance[:n_bars]):
@@ -145,15 +145,12 @@ class PCAAnalyzer:
         
         plt.tight_layout()
         
-        # Save
+        # Save only PNG
         png_path = os.path.join(self.figure_dir, f'{save_name}.png')
-        pdf_path = os.path.join(self.figure_dir, f'{save_name}.pdf')
         plt.savefig(png_path, dpi=300, bbox_inches='tight')
-        plt.savefig(pdf_path, bbox_inches='tight')
         plt.show()
         
         print(f"Saved: {png_path}")
-        print(f"Saved: {pdf_path}")
     
     def plot_scree(self, n_components: int = 20, save_name: str = 'pca_scree_plot'):
         """
@@ -189,13 +186,10 @@ class PCAAnalyzer:
         
         # Save
         png_path = os.path.join(self.figure_dir, f'{save_name}.png')
-        pdf_path = os.path.join(self.figure_dir, f'{save_name}.pdf')
         plt.savefig(png_path, dpi=300, bbox_inches='tight')
-        plt.savefig(pdf_path, bbox_inches='tight')
         plt.show()
         
         print(f"Saved: {png_path}")
-        print(f"Saved: {pdf_path}")
     
     def print_component_loadings(self, n_components: int = 5, 
                                  n_features: int = 10):
@@ -271,6 +265,104 @@ class PCAAnalyzer:
             print(f"  Val: {X_val_pca.shape}")
             print(f"  Saved: {train_path}")
     
+    def plot_2d_colored_by_metrics(self, X_train: np.ndarray, 
+                                display_features: pd.DataFrame,
+                                metrics: List[str],
+                                metric_names: Optional[Dict[str, str]] = None,
+                                save_combined: str = 'pca_2d_advanced_metrics_quartiles',
+                                save_individual: bool = False):
+        """
+        Plot 2D PCA colored by advanced metrics quartiles
+        
+        Args:
+            X_2d: 2D PCA transformed data (n_samples, 2)
+            display_features: DataFrame with advanced metrics columns
+            metrics: List of metric column names to visualize
+            metric_names: Optional dict mapping column names to display names
+            save_combined: Name for combined 2x2 figure
+            save_individual: Whether to save individual figures
+        """
+        if metric_names is None:
+            metric_names = {m: m.replace('_', ' ').title() for m in metrics}
+        
+        pca_2d = PCA(n_components=2)
+        X_2d = pca_2d.fit_transform(X_train)
+        
+        # Create 2x2 combined plot
+        n_metrics = len(metrics)
+        n_rows = 2
+        n_cols = 2
+        
+        fig, axes = plt.subplots(n_rows, n_cols, figsize=(18, 16))
+        axes = axes.flatten()
+        
+        for idx, metric in enumerate(metrics):
+            ax = axes[idx]
+            
+            # Get metric values
+            metric_values = display_features[metric].values
+            
+            # Calculate quartiles
+            q1, q2, q3 = np.percentile(metric_values, [25, 50, 75])
+            
+            # Assign quartile colors
+            quartile_colors = []
+            for val in metric_values:
+                if val <= q1:
+                    quartile_colors.append(0)
+                elif val <= q2:
+                    quartile_colors.append(1)
+                elif val <= q3:
+                    quartile_colors.append(2)
+                else:
+                    quartile_colors.append(3)
+            
+            # Scatter plot
+            scatter = ax.scatter(
+                X_2d[:, 0], 
+                X_2d[:, 1],
+                c=quartile_colors,
+                cmap='RdYlGn',
+                alpha=0.6,
+                s=30,
+                edgecolors='black',
+                linewidth=0.3
+            )
+            
+            # Colorbar
+            cbar = plt.colorbar(scatter, ax=ax, ticks=[0, 1, 2, 3])
+            cbar.set_ticklabels(['Q1\n(Low)', 'Q2', 'Q3', 'Q4\n(High)'])
+            cbar.set_label('Quartile', rotation=270, labelpad=20, fontweight='bold')
+            
+            # Labels and title
+            ax.set_xlabel('PC1', fontsize=12, fontweight='bold')
+            ax.set_ylabel('PC2', fontsize=12, fontweight='bold')
+            ax.set_title(f'2D PCA colored by {metric_names[metric]}', 
+                        fontsize=13, fontweight='bold', pad=10)
+            ax.grid(alpha=0.3, linestyle='--')
+            
+            # Quartile threshold info
+            info_text = f'Q1: {q1:.2f}\nQ2: {q2:.2f}\nQ3: {q3:.2f}'
+            ax.text(0.02, 0.98, info_text, 
+                    transform=ax.transAxes,
+                    fontsize=9,
+                    verticalalignment='top',
+                    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+            
+            # Print statistics
+            print(f"\n{metric_names[metric]}:")
+            print(f"  Q1: {q1:.3f}, Q2: {q2:.3f}, Q3: {q3:.3f}")
+            print(f"  Range: [{metric_values.min():.3f}, {metric_values.max():.3f}]")
+        
+        plt.tight_layout()
+        
+        # Save combined figure
+        combined_path = os.path.join(self.figure_dir, f'{save_combined}.png')
+        plt.savefig(combined_path, dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        print(f"\nSaved combined figure: {combined_path}")
+    
     def run_full_analysis(self, X_train: np.ndarray, X_val: np.ndarray,
                          feature_names: Optional[List[str]] = None):
         """
@@ -296,4 +388,4 @@ class PCAAnalyzer:
             self.print_component_loadings()
         
         # Transform and save
-        self.transform_and_save(X_train, X_val)
+        # self.transform_and_save(X_train, X_val)
