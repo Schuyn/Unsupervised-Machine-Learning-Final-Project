@@ -137,30 +137,30 @@ class NBADataPreprocessor:
             for col in self.total_stats:
                 original_missing = df_processed[col].isnull().sum()
                 df_processed[col] = df_processed[col].fillna(0)
-                print(f"Filled {original_missing} missing values in '{col}' with 0")
+                # print(f"Filled {original_missing} missing values in '{col}' with 0")
             
             # Fill percentage stats with 0 (never played = 0%)
             for col in self.percentage_stats:
                 original_missing = df_processed[col].isnull().sum()
                 df_processed[col] = df_processed[col].fillna(0)
-                print(f"Filled {original_missing} missing values in '{col}' with 0")
+                # print(f"Filled {original_missing} missing values in '{col}' with 0")
             
             # Fill per-game stats with 0
             for col in self.per_game_stats:
                 original_missing = df_processed[col].isnull().sum()
                 df_processed[col] = df_processed[col].fillna(0)
-                print(f"Filled {original_missing} missing values in '{col}' with 0")
+                # print(f"Filled {original_missing} missing values in '{col}' with 0")
             
             # Fill advanced metrics with 0 (no contribution for players with no data)
             for col in self.advanced_metrics:
                 original_missing = df_processed[col].isnull().sum()
                 df_processed[col] = df_processed[col].fillna(0)
-                print(f"Filled {original_missing} missing values in '{col}' with 0")
+                # print(f"Filled {original_missing} missing values in '{col}' with 0")
             
             # Handle college (international players)
             original_missing = df_processed['college'].isnull().sum()
             df_processed['college'] = df_processed['college'].fillna('International')
-            print(f"Filled {original_missing} missing colleges with 'International'")
+            # print(f"Filled {original_missing} missing colleges with 'International'")
             
         elif strategy == 'drop_busts':
             original_len = len(df_processed)
