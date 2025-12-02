@@ -2,7 +2,7 @@
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 16:51:01
 LastEditors: Schuyn 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-01 18:48:30
+LastEditTime: 2025-12-01 19:00:46
 FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/PCA.py
 Description: 
     Dimensionality Reduction Module for NBA Draft Analysis
@@ -362,6 +362,98 @@ class PCAAnalyzer:
         plt.show()
         
         print(f"\nSaved combined figure: {combined_path}")
+    
+    def plot_2d_with_player_highlights(self, X_train: np.ndarray,
+                                    display_features: pd.DataFrame,
+                                    player_names: List[str],
+                                    save_name: str = 'pca_2d_player_highlights'):
+        """
+        Plot 2D PCA with specific players highlighted and labeled
+        
+        Args:
+            X_train: Original training data (will be transformed to 2D)
+            display_features: DataFrame with player names and metadata
+            player_names: List of player names to highlight
+            save_name: Name for saved figure
+        """
+        # Transform to 2D
+        pca_2d = PCA(n_components=2)
+        X_2d = pca_2d.fit_transform(X_train)
+        
+        # Create figure
+        fig, ax = plt.subplots(figsize=(14, 10))
+        
+        # Plot all players in light gray
+        ax.scatter(X_2d[:, 0], X_2d[:, 1],
+                c='lightgray', alpha=0.3, s=20,
+                edgecolors='none', label='Other players')
+        
+        # Highlight and label specific players
+        colors = ['red', 'blue', 'green', 'orange', 'purple']
+        found_players = []
+        
+        for idx, player_name in enumerate(player_names):
+            color = colors[idx % len(colors)]
+            
+            # Find player in display_features
+            # Try exact match first
+            mask = display_features['player'].str.contains(player_name, case=False, na=False)
+            
+            if mask.any():
+                player_indices = mask[mask].index.tolist()
+                
+                for player_idx in player_indices:
+                    # Get coordinates
+                    x, y = X_2d[player_idx, 0], X_2d[player_idx, 1]
+                    
+                    # Plot highlighted point
+                    ax.scatter(x, y, c=color, s=200, 
+                            edgecolors='black', linewidth=2,
+                            marker='*', zorder=10,
+                            label=display_features.loc[player_idx, 'player'])
+                    
+                    # Add label with arrow
+                    ax.annotate(display_features.loc[player_idx, 'player'],
+                            xy=(x, y),
+                            xytext=(15, 15),
+                            textcoords='offset points',
+                            fontsize=11,
+                            fontweight='bold',
+                            bbox=dict(boxstyle='round,pad=0.5', 
+                                    facecolor=color, 
+                                    alpha=0.7,
+                                    edgecolor='black',
+                                    linewidth=1.5),
+                            arrowprops=dict(arrowstyle='->', 
+                                            connectionstyle='arc3,rad=0.3',
+                                            color='black',
+                                            linewidth=2))
+                    
+                    found_players.append(display_features.loc[player_idx, 'player'])
+                    print(f"Found: {display_features.loc[player_idx, 'player']} at index {player_idx}")
+            else:
+                print(f"Warning: Player '{player_name}' not found in dataset")
+        
+        # Labels and title
+        ax.set_xlabel('Principal Component 1', fontsize=14, fontweight='bold')
+        ax.set_ylabel('Principal Component 2', fontsize=14, fontweight='bold')
+        ax.set_title('2D PCA: NBA Draft Players with Star Highlights', 
+                    fontsize=16, fontweight='bold', pad=20)
+        ax.grid(alpha=0.3, linestyle='--')
+        
+        # Legend
+        ax.legend(loc='upper right', fontsize=10, framealpha=0.9)
+        
+        plt.tight_layout()
+        
+        # Save
+        save_path = os.path.join(self.figure_dir, f'{save_name}.png')
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        print(f"\nSaved: {save_path}")
+        print(f"Highlighted {len(found_players)} players: {', '.join(found_players)}")
+
     
     def run_full_analysis(self, X_train: np.ndarray, X_val: np.ndarray,
                          feature_names: Optional[List[str]] = None):
