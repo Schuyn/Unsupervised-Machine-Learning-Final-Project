@@ -1,9 +1,9 @@
 '''
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 16:51:01
-LastEditors: Schuyn 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-01 19:00:46
-FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/PCA.py
+LastEditors: RemoteScy 98257102+Schuyn@users.noreply.github.com
+LastEditTime: 2025-12-02 01:11:59
+FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/Dimension_reduction.py
 Description: 
     Dimensionality Reduction Module for NBA Draft Analysis
 
@@ -21,7 +21,7 @@ from sklearn.decomposition import PCA
 import pickle
 import os
 from typing import Tuple, List, Optional, Dict
-
+import umap
 
 class Analyzer:
     """
@@ -47,6 +47,27 @@ class Analyzer:
         # Create directories
         os.makedirs(output_dir, exist_ok=True)
         os.makedirs(figure_dir, exist_ok=True)
+    
+    def _save_metric_points(self, coords: np.ndarray, metric: str, metric_values: np.ndarray, 
+                            quartile_colors: List[int], reducer_name: str):
+        """
+        Save 2D coordinates with metric values and quartile assignment.
+        """
+        out_dir = os.path.join(self.output_dir, reducer_name, metric)
+        os.makedirs(out_dir, exist_ok=True)
+        df_out = pd.DataFrame({
+            f'{reducer_name}1': coords[:, 0],
+            f'{reducer_name}2': coords[:, 1],
+            'metric': metric_values,
+            'quartile': quartile_colors
+        })
+        df_out.to_csv(os.path.join(out_dir, 'all_points.csv'), index=False)
+        for q in range(4):
+            df_out[df_out['quartile'] == q].to_csv(
+                os.path.join(out_dir, f'quartile_{q+1}.csv'),
+                index=False
+            )
+
     
     def fit(self, X_train: np.ndarray, feature_names: Optional[List[str]] = None):
         """
@@ -317,6 +338,14 @@ class Analyzer:
                 else:
                     quartile_colors.append(3)
             
+            self._save_metric_points(
+                coords=X_2d,
+                metric=metric,
+                metric_values=metric_values,
+                quartile_colors=quartile_colors,
+                reducer_name='pca'
+            )
+
             # Scatter plot
             scatter = ax.scatter(
                 X_2d[:, 0], 
@@ -348,11 +377,6 @@ class Analyzer:
                     fontsize=9,
                     verticalalignment='top',
                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
-            
-            # Print statistics
-            print(f"\n{metric_names[metric]}:")
-            print(f"  Q1: {q1:.3f}, Q2: {q2:.3f}, Q3: {q3:.3f}")
-            print(f"  Range: [{metric_values.min():.3f}, {metric_values.max():.3f}]")
         
         plt.tight_layout()
         
@@ -473,8 +497,6 @@ class Analyzer:
             min_dist: UMAP min_dist parameter (default: 0.1)
             save_name: Name for saved figure
         """
-        import umap
-        
         if metric_names is None:
             metric_names = {m: m.replace('_', ' ').title() for m in metrics}
         
@@ -521,6 +543,14 @@ class Analyzer:
                 else:
                     quartile_colors.append(3)
             
+            self._save_metric_points(
+                coords=X_umap,
+                metric=metric,
+                metric_values=metric_values,
+                quartile_colors=quartile_colors,
+                reducer_name='umap'
+            )
+            
             # Scatter plot
             scatter = ax.scatter(
                 X_umap[:, 0], 
@@ -552,11 +582,6 @@ class Analyzer:
                     fontsize=9,
                     verticalalignment='top',
                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
-            
-            # Print statistics
-            print(f"\n{metric_names[metric]}:")
-            print(f"  Q1: {q1:.3f}, Q2: {q2:.3f}, Q3: {q3:.3f}")
-            print(f"  Range: [{metric_values.min():.3f}, {metric_values.max():.3f}]")
         
         plt.tight_layout()
         
@@ -586,7 +611,6 @@ class Analyzer:
             min_dist: UMAP min_dist parameter
             save_name: Name for saved figure
         """
-        import umap
         
         print("\n" + "="*80)
         print("UMAP WITH PLAYER HIGHLIGHTS")
