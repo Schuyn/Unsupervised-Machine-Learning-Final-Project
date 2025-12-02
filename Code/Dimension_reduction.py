@@ -2,7 +2,7 @@
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 16:51:01
 LastEditors: RemoteScy 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-02 01:11:59
+LastEditTime: 2025-12-02 17:22:43
 FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/Dimension_reduction.py
 Description: 
     Dimensionality Reduction Module for NBA Draft Analysis
@@ -27,7 +27,6 @@ class Analyzer:
     """
     PCA analysis and visualization for NBA draft data
     """
-    
     def __init__(self, output_dir: str = 'Data/processed', 
                  figure_dir: str = 'Latex/Figure'):
         """
@@ -49,25 +48,32 @@ class Analyzer:
         os.makedirs(figure_dir, exist_ok=True)
     
     def _save_metric_points(self, coords: np.ndarray, metric: str, metric_values: np.ndarray, 
-                            quartile_colors: List[int], reducer_name: str):
+                        quartile_colors: List[int], reducer_name: str, raw_data: pd.DataFrame):
         """
-        Save 2D coordinates with metric values and quartile assignment.
+        Save 2D coordinates with metric values and quartile assignment, along with original data.
+        
+        Args:
+            coords: 2D coordinates from dimensionality reduction
+            metric: Name of the metric
+            metric_values: Metric values for each point
+            quartile_colors: Quartile assignment (0-3) for each point
+            reducer_name: 'pca' or 'umap'
+            raw_data: Complete original DataFrame with all player info
         """
         out_dir = os.path.join(self.output_dir, reducer_name, metric)
         os.makedirs(out_dir, exist_ok=True)
-        df_out = pd.DataFrame({
-            f'{reducer_name}1': coords[:, 0],
-            f'{reducer_name}2': coords[:, 1],
-            'metric': metric_values,
-            'quartile': quartile_colors
-        })
-        df_out.to_csv(os.path.join(out_dir, 'all_points.csv'), index=False)
+        
+        df_out = raw_data.reset_index(drop=True).copy()
+        df_out[f'{reducer_name}1'] = coords[:, 0]
+        df_out[f'{reducer_name}2'] = coords[:, 1]
+        df_out['metric_value'] = metric_values
+        df_out['quartile'] = quartile_colors
+        
         for q in range(4):
             df_out[df_out['quartile'] == q].to_csv(
                 os.path.join(out_dir, f'quartile_{q+1}.csv'),
                 index=False
             )
-
     
     def fit(self, X_train: np.ndarray, feature_names: Optional[List[str]] = None):
         """
@@ -287,18 +293,18 @@ class Analyzer:
             print(f"  Saved: {train_path}")
     
     def plot_2d_colored_by_metrics(self, X_train: np.ndarray, 
-                                display_features: pd.DataFrame,
-                                metrics: List[str],
-                                metric_names: Optional[Dict[str, str]] = None,
-                                save_combined: str = 'pca_2d_advanced_metrics_quartiles',
-                                save_individual: bool = False):
+                                   raw_data: pd.DataFrame, metrics: List[str],
+                                   metric_names: Optional[Dict[str, str]] = None,
+                                   save_combined: str = 'pca_2d_advanced_metrics_quartiles',
+                                   save_individual: bool = False):
         """
         Plot 2D PCA colored by advanced metrics quartiles
-        
+
         Args:
-            X_2d: 2D PCA transformed data (n_samples, 2)
-            display_features: DataFrame with advanced metrics columns
-            metrics: List of metric column names to visualize
+            X_train: Training feature matrix to be reduced to 2D
+            raw_data: Complete DataFrame with all original columns (player, year, team, 
+                    college, statistics, etc.) to be saved alongside reduction results
+            metrics: List of metric column names to visualize (must exist in raw_data)
             metric_names: Optional dict mapping column names to display names
             save_combined: Name for combined 2x2 figure
             save_individual: Whether to save individual figures
@@ -321,7 +327,7 @@ class Analyzer:
             ax = axes[idx]
             
             # Get metric values
-            metric_values = display_features[metric].values
+            metric_values = raw_data[metric].values
             
             # Calculate quartiles
             q1, q2, q3 = np.percentile(metric_values, [25, 50, 75])
@@ -343,7 +349,8 @@ class Analyzer:
                 metric=metric,
                 metric_values=metric_values,
                 quartile_colors=quartile_colors,
-                reducer_name='pca'
+                reducer_name='pca',
+                raw_data=raw_data
             )
 
             # Scatter plot
@@ -479,12 +486,12 @@ class Analyzer:
         print(f"Highlighted {len(found_players)} players: {', '.join(found_players)}")
 
     def plot_umap_colored_by_metrics(self, X_train: np.ndarray,
-                                      display_features: pd.DataFrame,
-                                      metrics: List[str],
-                                      metric_names: Optional[Dict[str, str]] = None,
-                                      n_neighbors: int = 15,
-                                      min_dist: float = 0.1,
-                                      save_name: str = 'umap_2d_advanced_metrics'):
+                                     raw_data: pd.DataFrame,
+                                     metrics: List[str],
+                                     metric_names: Optional[Dict[str, str]] = None,
+                                     n_neighbors: int = 15,
+                                     min_dist: float = 0.1,
+                                     save_name: str = 'umap_2d_advanced_metrics'):
         """
         UMAP 2D reduction with advanced metrics quartile coloring
         
@@ -526,7 +533,7 @@ class Analyzer:
             ax = axes[idx]
             
             # Get metric values
-            metric_values = display_features[metric].values
+            metric_values = raw_data[metric].values
             
             # Calculate quartiles
             q1, q2, q3 = np.percentile(metric_values, [25, 50, 75])
@@ -548,7 +555,8 @@ class Analyzer:
                 metric=metric,
                 metric_values=metric_values,
                 quartile_colors=quartile_colors,
-                reducer_name='umap'
+                reducer_name='umap',
+                raw_data=raw_data
             )
             
             # Scatter plot
