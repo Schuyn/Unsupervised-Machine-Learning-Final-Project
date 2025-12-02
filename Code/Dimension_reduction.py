@@ -2,7 +2,7 @@
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 16:51:01
 LastEditors: RemoteScy 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-02 17:22:43
+LastEditTime: 2025-12-02 23:24:09
 FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/Dimension_reduction.py
 Description: 
     Dimensionality Reduction Module for NBA Draft Analysis
@@ -312,8 +312,9 @@ class Analyzer:
         if metric_names is None:
             metric_names = {m: m.replace('_', ' ').title() for m in metrics}
         
-        pca_2d = PCA(n_components=2)
-        X_2d = pca_2d.fit_transform(X_train)
+        # Create and save PCA model
+        self.pca_2d = PCA(n_components=2)  # Save as instance variable
+        X_2d = self.pca_2d.fit_transform(X_train)
         
         # Create 2x2 combined plot
         n_metrics = len(metrics)
@@ -407,9 +408,7 @@ class Analyzer:
             player_names: List of player names to highlight
             save_name: Name for saved figure
         """
-        # Transform to 2D
-        pca_2d = PCA(n_components=2)
-        X_2d = pca_2d.fit_transform(X_train)
+        X_2d = self.pca_2d.transform(X_train)
         
         # Create figure
         fig, ax = plt.subplots(figsize=(14, 10))
