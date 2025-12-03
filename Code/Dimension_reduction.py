@@ -1,8 +1,8 @@
 '''
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 16:51:01
-LastEditors: RemoteScy 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-02 23:24:09
+LastEditors: Please set LastEditors
+LastEditTime: 2025-12-02 21:34:49
 FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/Dimension_reduction.py
 Description: 
     Dimensionality Reduction Module for NBA Draft Analysis
@@ -292,45 +292,66 @@ class Analyzer:
             print(f"  Val: {X_val_pca.shape}")
             print(f"  Saved: {train_path}")
     
-    def plot_2d_colored_by_metrics(self, X_train: np.ndarray, 
-                                   raw_data: pd.DataFrame, metrics: List[str],
-                                   metric_names: Optional[Dict[str, str]] = None,
-                                   save_combined: str = 'pca_2d_advanced_metrics_quartiles',
-                                   save_individual: bool = False):
+    def plot_pca_with_highlights(self, X_train: np.ndarray, 
+                             raw_data: pd.DataFrame, 
+                             metrics: List[str],
+                             player_names: List[str],
+                             metric_names: Optional[Dict[str, str]] = None,
+                             save_name: str = 'pca_2d_metrics_with_highlights'):
         """
-        Plot 2D PCA colored by advanced metrics quartiles
-
+        Plot 2D PCA colored by metrics quartiles with specific players highlighted
+        
         Args:
             X_train: Training feature matrix to be reduced to 2D
-            raw_data: Complete DataFrame with all original columns (player, year, team, 
-                    college, statistics, etc.) to be saved alongside reduction results
-            metrics: List of metric column names to visualize (must exist in raw_data)
+            raw_data: Complete DataFrame with all original columns
+            metrics: List of metric column names to visualize
+            player_names: List of player names to highlight
             metric_names: Optional dict mapping column names to display names
-            save_combined: Name for combined 2x2 figure
-            save_individual: Whether to save individual figures
+            save_name: Name for saved figure
         """
         if metric_names is None:
             metric_names = {m: m.replace('_', ' ').title() for m in metrics}
         
         # Create and save PCA model
-        self.pca_2d = PCA(n_components=2)  # Save as instance variable
+        self.pca_2d = PCA(n_components=2)
         X_2d = self.pca_2d.fit_transform(X_train)
         
-        # Create 2x2 combined plot
-        n_metrics = len(metrics)
-        n_rows = 2
-        n_cols = 2
+        # Load player coordinates from win_shares processed data
+        coord_data_list = []
+        for q in range(1, 5):
+            quartile_path = os.path.join(self.output_dir, 'pca', 'win_shares', f'quartile_{q}.csv')
+            if os.path.exists(quartile_path):
+                coord_data_list.append(pd.read_csv(quartile_path))
         
-        fig, axes = plt.subplots(n_rows, n_cols, figsize=(18, 16))
+        coord_data = pd.concat(coord_data_list, ignore_index=True)
+        
+        # Find target players in coordinate data
+        player_coords = {}
+        for player_name in player_names:
+            mask = coord_data['player'].str.contains(player_name, case=False, na=False)
+            if mask.any():
+                matched = coord_data[mask].iloc[0]
+                player_coords[matched['player']] = {
+                    'x': matched['pca1'],
+                    'y': matched['pca2'],
+                    'full_name': matched['player']
+                }
+                print(f"Found player: {matched['player']}")
+            else:
+                print(f"Warning: Player '{player_name}' not found")
+        
+        # Create 2x2 combined plot
+        fig, axes = plt.subplots(2, 2, figsize=(18, 16))
         axes = axes.flatten()
+        
+        # Define colors for highlighted players
+        highlight_colors = ['red', 'blue', 'green', 'orange', 'purple']
         
         for idx, metric in enumerate(metrics):
             ax = axes[idx]
             
-            # Get metric values
+            # Get metric values and calculate quartiles
             metric_values = raw_data[metric].values
-            
-            # Calculate quartiles
             q1, q2, q3 = np.percentile(metric_values, [25, 50, 75])
             
             # Assign quartile colors
@@ -345,6 +366,7 @@ class Analyzer:
                 else:
                     quartile_colors.append(3)
             
+            # Save metric points
             self._save_metric_points(
                 coords=X_2d,
                 metric=metric,
@@ -353,8 +375,8 @@ class Analyzer:
                 reducer_name='pca',
                 raw_data=raw_data
             )
-
-            # Scatter plot
+            
+            # Scatter plot with quartile coloring
             scatter = ax.scatter(
                 X_2d[:, 0], 
                 X_2d[:, 1],
@@ -366,6 +388,33 @@ class Analyzer:
                 linewidth=0.3
             )
             
+            # Highlight specific players
+            for player_idx, (full_name, coords) in enumerate(player_coords.items()):
+                color = highlight_colors[player_idx % len(highlight_colors)]
+                x, y = coords['x'], coords['y']
+                
+                # Plot star marker
+                ax.scatter(x, y, c=color, s=200,
+                        edgecolors='black', linewidth=2,
+                        marker='*', zorder=10)
+                
+                # Add annotation with arrow
+                ax.annotate(full_name,
+                        xy=(x, y),
+                        xytext=(15, 15),
+                        textcoords='offset points',
+                        fontsize=11,
+                        fontweight='bold',
+                        bbox=dict(boxstyle='round,pad=0.5',
+                                facecolor=color,
+                                alpha=0.7,
+                                edgecolor='black',
+                                linewidth=1.5),
+                        arrowprops=dict(arrowstyle='->',
+                                        connectionstyle='arc3,rad=0.3',
+                                        color='black',
+                                        linewidth=2))
+            
             # Colorbar
             cbar = plt.colorbar(scatter, ax=ax, ticks=[0, 1, 2, 3])
             cbar.set_ticklabels(['Q1\n(Low)', 'Q2', 'Q3', 'Q4\n(High)'])
@@ -374,13 +423,13 @@ class Analyzer:
             # Labels and title
             ax.set_xlabel('PC1', fontsize=12, fontweight='bold')
             ax.set_ylabel('PC2', fontsize=12, fontweight='bold')
-            ax.set_title(f'2D PCA colored by {metric_names[metric]}', 
+            ax.set_title(f'2D PCA colored by {metric_names[metric]}',
                         fontsize=13, fontweight='bold', pad=10)
             ax.grid(alpha=0.3, linestyle='--')
             
             # Quartile threshold info
             info_text = f'Q1: {q1:.2f}\nQ2: {q2:.2f}\nQ3: {q3:.2f}'
-            ax.text(0.02, 0.98, info_text, 
+            ax.text(0.02, 0.98, info_text,
                     transform=ax.transAxes,
                     fontsize=9,
                     verticalalignment='top',
@@ -389,125 +438,40 @@ class Analyzer:
         plt.tight_layout()
         
         # Save combined figure
-        combined_path = os.path.join(self.figure_dir, f'{save_combined}.png')
-        plt.savefig(combined_path, dpi=300, bbox_inches='tight')
-        plt.show()
-        
-        print(f"\nSaved combined figure: {combined_path}")
-    
-    def plot_2d_with_player_highlights(self, X_train: np.ndarray,
-                                    display_features: pd.DataFrame,
-                                    player_names: List[str],
-                                    save_name: str = 'pca_2d_player_highlights'):
-        """
-        Plot 2D PCA with specific players highlighted and labeled
-        
-        Args:
-            X_train: Original training data (will be transformed to 2D)
-            display_features: DataFrame with player names and metadata
-            player_names: List of player names to highlight
-            save_name: Name for saved figure
-        """
-        X_2d = self.pca_2d.transform(X_train)
-        
-        # Create figure
-        fig, ax = plt.subplots(figsize=(14, 10))
-        
-        # Plot all players in light gray
-        ax.scatter(X_2d[:, 0], X_2d[:, 1],
-                c='lightgray', alpha=0.3, s=20,
-                edgecolors='none', label='Other players')
-        
-        # Highlight and label specific players
-        colors = ['red', 'blue', 'green', 'orange', 'purple']
-        found_players = []
-        
-        for idx, player_name in enumerate(player_names):
-            color = colors[idx % len(colors)]
-            
-            # Find player in display_features
-            # Try exact match first
-            mask = display_features['player'].str.contains(player_name, case=False, na=False)
-            
-            if mask.any():
-                player_indices = mask[mask].index.tolist()
-                
-                for player_idx in player_indices:
-                    # Get coordinates
-                    x, y = X_2d[player_idx, 0], X_2d[player_idx, 1]
-                    
-                    # Plot highlighted point
-                    ax.scatter(x, y, c=color, s=200, 
-                            edgecolors='black', linewidth=2,
-                            marker='*', zorder=10,
-                            label=display_features.loc[player_idx, 'player'])
-                    
-                    # Add label with arrow
-                    ax.annotate(display_features.loc[player_idx, 'player'],
-                            xy=(x, y),
-                            xytext=(15, 15),
-                            textcoords='offset points',
-                            fontsize=11,
-                            fontweight='bold',
-                            bbox=dict(boxstyle='round,pad=0.5', 
-                                    facecolor=color, 
-                                    alpha=0.7,
-                                    edgecolor='black',
-                                    linewidth=1.5),
-                            arrowprops=dict(arrowstyle='->', 
-                                            connectionstyle='arc3,rad=0.3',
-                                            color='black',
-                                            linewidth=2))
-                    
-                    found_players.append(display_features.loc[player_idx, 'player'])
-                    print(f"Found: {display_features.loc[player_idx, 'player']} at index {player_idx}")
-            else:
-                print(f"Warning: Player '{player_name}' not found in dataset")
-        
-        # Labels and title
-        ax.set_xlabel('Principal Component 1', fontsize=14, fontweight='bold')
-        ax.set_ylabel('Principal Component 2', fontsize=14, fontweight='bold')
-        ax.set_title('2D PCA: NBA Draft Players with Star Highlights', 
-                    fontsize=16, fontweight='bold', pad=20)
-        ax.grid(alpha=0.3, linestyle='--')
-        
-        # Legend
-        ax.legend(loc='upper right', fontsize=10, framealpha=0.9)
-        
-        plt.tight_layout()
-        
-        # Save
         save_path = os.path.join(self.figure_dir, f'{save_name}.png')
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.show()
         
-        print(f"\nSaved: {save_path}")
-        print(f"Highlighted {len(found_players)} players: {', '.join(found_players)}")
+        print(f"\nSaved combined figure: {save_path}")
+        print(f"Highlighted {len(player_coords)} players: {', '.join(player_coords.keys())}")
 
-    def plot_umap_colored_by_metrics(self, X_train: np.ndarray,
-                                     raw_data: pd.DataFrame,
-                                     metrics: List[str],
-                                     metric_names: Optional[Dict[str, str]] = None,
-                                     n_neighbors: int = 15,
-                                     min_dist: float = 0.1,
-                                     save_name: str = 'umap_2d_advanced_metrics'):
+
+    def plot_umap_with_highlights(self, X_train: np.ndarray,
+                                raw_data: pd.DataFrame,
+                                metrics: List[str],
+                                player_names: List[str],
+                                metric_names: Optional[Dict[str, str]] = None,
+                                n_neighbors: int = 15,
+                                min_dist: float = 0.1,
+                                save_name: str = 'umap_2d_metrics_with_highlights'):
         """
-        UMAP 2D reduction with advanced metrics quartile coloring
+        Plot UMAP 2D colored by metrics quartiles with specific players highlighted
         
         Args:
             X_train: Training data
-            display_features: DataFrame with metrics columns
+            raw_data: Complete DataFrame with all original columns
             metrics: List of metric column names
+            player_names: List of player names to highlight
             metric_names: Optional dict mapping column names to display names
-            n_neighbors: UMAP n_neighbors parameter (default: 15)
-            min_dist: UMAP min_dist parameter (default: 0.1)
+            n_neighbors: UMAP n_neighbors parameter
+            min_dist: UMAP min_dist parameter
             save_name: Name for saved figure
         """
         if metric_names is None:
             metric_names = {m: m.replace('_', ' ').title() for m in metrics}
         
         print("\n" + "="*80)
-        print("UMAP 2D - COLORED BY ADVANCED METRICS")
+        print("UMAP 2D WITH PLAYER HIGHLIGHTS")
         print("="*80)
         print(f"Input shape: {X_train.shape}")
         print(f"Parameters: n_neighbors={n_neighbors}, min_dist={min_dist}")
@@ -517,24 +481,39 @@ class Analyzer:
             n_components=2,
             n_neighbors=n_neighbors,
             min_dist=min_dist,
-            random_state=42,
+            random_state=25,
             verbose=False
         )
         X_umap = reducer.fit_transform(X_train)
         
         print(f"UMAP embedding shape: {X_umap.shape}")
         
+        player_coords = {}
+        for player_name in player_names:
+            mask = raw_data['player'].str.contains(player_name, case=False, na=False)
+            if mask.any():
+                player_idx = mask[mask].index[0]  # 获取第一个匹配的索引
+                player_coords[raw_data.loc[player_idx, 'player']] = {
+                    'x': X_umap[player_idx, 0],
+                    'y': X_umap[player_idx, 1],
+                    'full_name': raw_data.loc[player_idx, 'player']
+                }
+                print(f"Found player: {raw_data.loc[player_idx, 'player']}")
+            else:
+                print(f"Warning: Player '{player_name}' not found")
+        
         # Create 2x2 plot
         fig, axes = plt.subplots(2, 2, figsize=(18, 16))
         axes = axes.flatten()
         
+        # Define colors for highlighted players
+        highlight_colors = ['red', 'blue', 'green', 'orange', 'purple']
+        
         for idx, metric in enumerate(metrics):
             ax = axes[idx]
             
-            # Get metric values
+            # Get metric values and calculate quartiles
             metric_values = raw_data[metric].values
-            
-            # Calculate quartiles
             q1, q2, q3 = np.percentile(metric_values, [25, 50, 75])
             
             # Assign quartile colors
@@ -549,6 +528,7 @@ class Analyzer:
                 else:
                     quartile_colors.append(3)
             
+            # Save metric points
             self._save_metric_points(
                 coords=X_umap,
                 metric=metric,
@@ -558,9 +538,9 @@ class Analyzer:
                 raw_data=raw_data
             )
             
-            # Scatter plot
+            # Scatter plot with quartile coloring
             scatter = ax.scatter(
-                X_umap[:, 0], 
+                X_umap[:, 0],
                 X_umap[:, 1],
                 c=quartile_colors,
                 cmap='RdYlGn',
@@ -570,6 +550,33 @@ class Analyzer:
                 linewidth=0.3
             )
             
+            # Highlight specific players
+            for player_idx, (full_name, coords) in enumerate(player_coords.items()):
+                color = highlight_colors[player_idx % len(highlight_colors)]
+                x, y = coords['x'], coords['y']
+                
+                # Plot star marker
+                ax.scatter(x, y, c=color, s=200,
+                        edgecolors='black', linewidth=2,
+                        marker='*', zorder=10)
+                
+                # Add annotation with arrow
+                ax.annotate(full_name,
+                        xy=(x, y),
+                        xytext=(15, 15),
+                        textcoords='offset points',
+                        fontsize=11,
+                        fontweight='bold',
+                        bbox=dict(boxstyle='round,pad=0.5',
+                                facecolor=color,
+                                alpha=0.7,
+                                edgecolor='black',
+                                linewidth=1.5),
+                        arrowprops=dict(arrowstyle='->',
+                                        connectionstyle='arc3,rad=0.3',
+                                        color='black',
+                                        linewidth=2))
+            
             # Colorbar
             cbar = plt.colorbar(scatter, ax=ax, ticks=[0, 1, 2, 3])
             cbar.set_ticklabels(['Q1\n(Low)', 'Q2', 'Q3', 'Q4\n(High)'])
@@ -578,13 +585,13 @@ class Analyzer:
             # Labels and title
             ax.set_xlabel('UMAP 1', fontsize=12, fontweight='bold')
             ax.set_ylabel('UMAP 2', fontsize=12, fontweight='bold')
-            ax.set_title(f'UMAP colored by {metric_names[metric]}', 
-                         fontsize=13, fontweight='bold', pad=10)
+            ax.set_title(f'UMAP colored by {metric_names[metric]}',
+                        fontsize=13, fontweight='bold', pad=10)
             ax.grid(alpha=0.3, linestyle='--')
             
             # Quartile threshold info
             info_text = f'Q1: {q1:.2f}\nQ2: {q2:.2f}\nQ3: {q3:.2f}'
-            ax.text(0.02, 0.98, info_text, 
+            ax.text(0.02, 0.98, info_text,
                     transform=ax.transAxes,
                     fontsize=9,
                     verticalalignment='top',
@@ -596,121 +603,13 @@ class Analyzer:
         save_path = os.path.join(self.figure_dir, f'{save_name}.png')
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.show()
-        
+    
         print(f"\nSaved: {save_path}")
+        print(f"Highlighted {len(player_coords)} players: {', '.join(player_coords.keys())}")
         
         return X_umap
     
-    def plot_umap_with_player_highlights(self, X_train: np.ndarray,
-                                          display_features: pd.DataFrame,
-                                          player_names: List[str],
-                                          n_neighbors: int = 15,
-                                          min_dist: float = 0.1,
-                                          save_name: str = 'umap_2d_star_players'):
-        """
-        UMAP 2D reduction with specific players highlighted
-        
-        Args:
-            X_train: Training data
-            display_features: DataFrame with player column
-            player_names: List of player names to highlight
-            n_neighbors: UMAP n_neighbors parameter
-            min_dist: UMAP min_dist parameter
-            save_name: Name for saved figure
-        """
-        
-        print("\n" + "="*80)
-        print("UMAP WITH PLAYER HIGHLIGHTS")
-        print("="*80)
-        print(f"Input shape: {X_train.shape}")
-        
-        # Fit UMAP
-        reducer = umap.UMAP(
-            n_components=2,
-            n_neighbors=n_neighbors,
-            min_dist=min_dist,
-            random_state=42,
-            verbose=False
-        )
-        X_umap = reducer.fit_transform(X_train)
-        
-        print(f"UMAP embedding shape: {X_umap.shape}")
-        
-        # Create figure
-        fig, ax = plt.subplots(figsize=(14, 10))
-        
-        # Plot all players in light gray
-        ax.scatter(X_umap[:, 0], X_umap[:, 1],
-                   c='lightgray', alpha=0.3, s=20,
-                   edgecolors='none', label='Other players')
-        
-        # Highlight and label specific players
-        colors = ['red', 'blue', 'green', 'orange', 'purple']
-        found_players = []
-        
-        for idx, player_name in enumerate(player_names):
-            color = colors[idx % len(colors)]
-            
-            # Find player in display_features
-            mask = display_features['player'].str.contains(player_name, case=False, na=False)
-            
-            if mask.any():
-                player_indices = mask[mask].index.tolist()
-                
-                for player_idx in player_indices:
-                    # Get coordinates
-                    x, y = X_umap[player_idx, 0], X_umap[player_idx, 1]
-                    
-                    # Plot highlighted point
-                    ax.scatter(x, y, c=color, s=200, 
-                              edgecolors='black', linewidth=2,
-                              marker='*', zorder=10,
-                              label=display_features.loc[player_idx, 'player'])
-                    
-                    # Add label with arrow
-                    ax.annotate(display_features.loc[player_idx, 'player'],
-                               xy=(x, y),
-                               xytext=(15, 15),
-                               textcoords='offset points',
-                               fontsize=11,
-                               fontweight='bold',
-                               bbox=dict(boxstyle='round,pad=0.5', 
-                                       facecolor=color, 
-                                       alpha=0.7,
-                                       edgecolor='black',
-                                       linewidth=1.5),
-                               arrowprops=dict(arrowstyle='->', 
-                                             connectionstyle='arc3,rad=0.3',
-                                             color='black',
-                                             linewidth=2))
-                    
-                    found_players.append(display_features.loc[player_idx, 'player'])
-                    print(f"Found: {display_features.loc[player_idx, 'player']} at index {player_idx}")
-            else:
-                print(f"Warning: Player '{player_name}' not found in dataset")
-        
-        # Labels and title
-        ax.set_xlabel('UMAP 1', fontsize=14, fontweight='bold')
-        ax.set_ylabel('UMAP 2', fontsize=14, fontweight='bold')
-        ax.set_title('UMAP: NBA Draft Players with Star Highlights', 
-                     fontsize=16, fontweight='bold', pad=20)
-        ax.grid(alpha=0.3, linestyle='--')
-        
-        # Legend
-        ax.legend(loc='upper right', fontsize=10, framealpha=0.9)
-        
-        plt.tight_layout()
-        
-        # Save
-        save_path = os.path.join(self.figure_dir, f'{save_name}.png')
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        plt.show()
-        
-        print(f"\nSaved: {save_path}")
-        print(f"Highlighted {len(found_players)} players: {', '.join(found_players)}")
-        
-        return X_umap
-    
+
     def run_full_analysis(self, X_train: np.ndarray, X_val: np.ndarray,
                          feature_names: Optional[List[str]] = None):
         """
