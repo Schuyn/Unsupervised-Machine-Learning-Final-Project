@@ -51,7 +51,6 @@ college_Duke
 college_Florida
 college_Florida State
 college_Georgia Tech
-college_Indiana
 college_International
 college_Kansas
 college_Kentucky
@@ -66,4 +65,5 @@ college_Texas
 college_UCLA
 college_UConn
 college_UNC
+college_Villanova
 college_Washington

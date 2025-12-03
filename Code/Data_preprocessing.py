@@ -1,8 +1,8 @@
 '''
 Author: Chuyang Su cs4570@columbia.edu
 Date: 2025-12-01 13:52:46
-LastEditors: Schuyn 98257102+Schuyn@users.noreply.github.com
-LastEditTime: 2025-12-01 18:44:00
+LastEditors: RemoteScy 98257102+Schuyn@users.noreply.github.com
+LastEditTime: 2025-12-02 17:56:59
 FilePath: /Unsupervised-Machine-Learning-Final-Project/Code/Data_preprocessing.py
 Description: 
     This module handles:
@@ -124,50 +124,49 @@ class NBADataPreprocessor:
         
         Args:
             df: DataFrame to process
-            strategy: 'preserve_busts' (keep low/no career players) or 'drop_busts'
+            strategy: 'preserve_busts' (keep players with no games) or 'drop_busts' (remove them)
             
         Returns:
             Processed dataframe
         """
         df_processed = df.copy()
         
-        if strategy == 'preserve_busts':
-            # Fill counting stats with 0 for players who never/barely played
-            for col in self.total_stats:
-                original_missing = df_processed[col].isnull().sum()
-                df_processed[col] = df_processed[col].fillna(0)
-                # print(f"Filled {original_missing} missing values in '{col}' with 0")
-            
-            # Fill percentage stats with 0 (never played = 0%)
-            for col in self.percentage_stats:
-                original_missing = df_processed[col].isnull().sum()
-                df_processed[col] = df_processed[col].fillna(0)
-                # print(f"Filled {original_missing} missing values in '{col}' with 0")
-            
-            # Fill per-game stats with 0
-            for col in self.per_game_stats:
-                original_missing = df_processed[col].isnull().sum()
-                df_processed[col] = df_processed[col].fillna(0)
-                # print(f"Filled {original_missing} missing values in '{col}' with 0")
-            
-            # Fill advanced metrics with 0 (no contribution for players with no data)
-            for col in self.advanced_metrics:
-                original_missing = df_processed[col].isnull().sum()
-                df_processed[col] = df_processed[col].fillna(0)
-                # print(f"Filled {original_missing} missing values in '{col}' with 0")
-            
-            # Handle college (international players)
-            original_missing = df_processed['college'].isnull().sum()
-            df_processed['college'] = df_processed['college'].fillna('International')
-            # print(f"Filled {original_missing} missing colleges with 'International'")
-            
-        elif strategy == 'drop_busts':
-            original_len = len(df_processed)
-            df_processed = df_processed.dropna(subset=['games'])
-            dropped = original_len - len(df_processed)
-            print(f"Dropped {dropped} players with no games played")
+        # Step 1: Identify bust players (no games played)
+        bust_mask = df_processed['games'].isnull()
+        n_busts = bust_mask.sum()
         
-        print(f"\nFinal dataset size: {len(df_processed)} players")
+        # Step 2: Apply bust handling strategy
+        if strategy == 'drop_busts':
+            df_processed = df_processed[~bust_mask].copy()
+            print(f"Dropped {n_busts} players with no games played")
+        elif strategy == 'preserve_busts':
+            print(f"Preserved {n_busts} players with no games played")
+        else:
+            raise ValueError(f"Unknown strategy: {strategy}. Use 'preserve_busts' or 'drop_busts'")
+        
+        # Step 3: Fill missing values uniformly for all remaining players
+        # (applies to both strategies - either bust players or players with partial data)
+        
+        # Fill total stats with 0
+        for col in self.total_stats:
+            df_processed[col] = df_processed[col].fillna(0)
+        
+        # Fill percentage stats with 0 (no attempts = 0%)
+        for col in self.percentage_stats:
+            df_processed[col] = df_processed[col].fillna(0)
+        
+        # Fill per-game stats with 0
+        for col in self.per_game_stats:
+            df_processed[col] = df_processed[col].fillna(0)
+        
+        # Fill advanced metrics with 0 (no contribution)
+        for col in self.advanced_metrics:
+            df_processed[col] = df_processed[col].fillna(0)
+        
+        # Fill missing college with 'International'
+        df_processed['college'] = df_processed['college'].fillna('International')
+        
+        print(f"Final dataset size: {len(df_processed)} players")
         
         return df_processed
     
