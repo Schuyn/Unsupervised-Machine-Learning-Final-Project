@@ -16,13 +16,12 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{pythonhighlight}
-\usepackage{subcaption} % Âπ∂ÂàóÊîæÂõæÊó∂ÂèØ‰ª•ÂàÜÂà´ÊâìÊ†áÁ≠æ
+\usepackage{subcaption} % ?1???°™?°±?????°™???°•??£§???????°Î°∞????-?
 
-
-% È°µËæπË∑ù
+% ®¶?¶Ã®®?1®®°§?
 \geometry{margin=1in}
 
-% È°µÁúâÈ°µËÑö
+% ®¶?¶Ã??°Î®¶?¶Ã®®??
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{STAT 5244 -- Unsupervised Learning}
@@ -30,7 +29,7 @@
 \cfoot{\thepage\ of \pageref{LastPage}}
 
 % -------------------------------
-% Êï∞Â≠¶ÁéØÂ¢É
+% ??°„?-|??°•?°È?
 % -------------------------------
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -38,11 +37,11 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{remark}{Remark}
 
-% ÂêëÈáè/Áü©ÈòµÁ≤ó‰Ωì
+% ??°Æ®¶??/???®¶?¶Ã?2°™??°∞
 \renewcommand{\vec}[1]{\bm{#1}}
 
 % -------------------------------
-% ‰ª£Á†ÅÈ´ò‰∫Æ
+% ??°Í???®¶???o?
 % -------------------------------
 \usepackage{listings}
 \lstset{
@@ -60,7 +59,7 @@
 }
 
 % -------------------------------
-% ÊñáÊ°£ÂºÄÂßã
+% ?®C???°Í??Ä?°Ï?
 % -------------------------------
 \begin{document}
 
@@ -73,12 +72,35 @@
 \hrule
 \vspace{1em}
 
-% -------------------------------
-% Problem 1
-% -------------------------------
-\section{Mixture Models}
-\subsection{EM Algorithm Derivation}
+\section{Data and Metrics Overview}
+\subsection{Dataset}
+Season-level NBA player data covering demographics, full-season box score totals, and advanced metrics. Core totals include games, minutes, points, rebounds, assists, and shooting percentages; advanced metrics summarize win contribution and on-court impact.
 
+\subsection{Advanced Metrics (Focus)}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{WS and WS/48}: Win Shares (WS) measure total wins a player adds, split into offensive (OWS) and defensive (DWS) parts. WS/48 scales WS by playing time, representing wins added if the player maintained the same efficiency over 48 minutes.
+    \item \textbf{BPM and VORP}: Box Plus/Minus (BPM) estimates points per 100 possessions a player adds relative to average, using a regression over full box score stats. Value Over Replacement Player (VORP) shifts BPM by a constant baseline (around --2) to express net impact versus a replacement-level player.
+\end{itemize}
 
+\section{Data Processing}
+\subsection{Cleaning}
+Removed players who never appeared in a game. Filled numeric missing values with 0 and set missing \texttt{college} to \texttt{International}. To avoid overfitting in dimensionality reduction while keeping these metrics for comparison, advanced metric columns were dropped during PCA and UMAP. Per-game stats were excluded as they are deterministic from totals and introduce collinearity with different units; totals were retained for consistency.
+
+\subsection{Feature Engineering and Selection}
+Counted player production by college, kept the top 20 sources (including International) as one-hot categories, grouped the rest into \texttt{Others}; standardized draft year and one-hot encoded draft team. These categorical features performed poorly in PCA/UMAP, so the final reduction used only numeric core features: \texttt{games}, \texttt{minutes\_played}, \texttt{points}, \texttt{total\_rebounds}, \texttt{assists}, \texttt{field\_goal\_percentage}, \texttt{3\_point\_percentage}, \texttt{free\_throw\_percentage}.
+
+\section{Dimensionality Reduction and EDA}
+\subsection{PCA Results}
+Plotted cumulative explained variance and component-wise variance bars. The first two principal components explain about 74\% of total variance: $PC_1$ captures overall counting volume (low weight on shooting accuracy), while $PC_2$ is driven almost entirely by three-point and free-throw percentages and is weakly or negatively related to the other stats. We present the numeric-only PCA version because including advanced metrics produced unstable structure.
+
+\subsection{PCA Visualization Insights}
+In 2D PCA space we color points by quartiles of WS, WS/48, BPM, and VORP (red = lowest quartile, dark green = highest) and highlight LeBron James, Tim Duncan, Kobe Bryant, Stephen Curry, and Kyrie Irving. Observations:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Clear WS gradient}: Along $PC_1$ scores progress from weaker to stronger; larger $PC_1$ means bigger raw totals, and sparsity at the high end reflects superstar rarity.
+    \item \textbf{WS/48 more diffuse}: Lowest quartile remains clustered, but middle and upper quartiles intermingle, showing that efficient low-usage players can still add wins; teams are not built solely by stacking high-usage stars.
+    \item \textbf{BPM sensitive to shooting}: Unless $PC_1$ is extreme, stratification follows $PC_2$; high three-point and free-throw accuracy lifts BPM substantially.
+    \item \textbf{VORP non-monotonicity}: Lowest quartile is not always at small $PC_1$; some high-volume players lag in VORP, while low-volume players are not always most harmful, highlighting replacement-value differences.
+    \item \textbf{Star placement matches intuition}: James, Duncan, and Bryant lead on $PC_1$; Curry and Irving peak on $PC_2$. At equal $PC_2$, Curry sits higher on $PC_1$, consistent with high efficiency plus high output.
+\end{itemize}
 
 \end{document}
