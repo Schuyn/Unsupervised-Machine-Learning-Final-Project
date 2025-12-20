@@ -16,12 +16,12 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{pythonhighlight}
-\usepackage{subcaption} % ?1???°™?°±?????°™???°•??£§???????°Î°∞????-?
+\usepackage{subcaption} % ?1???‚Äî?‚Äù?????‚Äî???Àâ??Ôø•???????‚Ä∞‚Äú????-?
 
-% ®¶?¶Ã®®?1®®°§?
+% √©?Œº√®?1√®¬∑?
 \geometry{margin=1in}
 
-% ®¶?¶Ã??°Î®¶?¶Ã®®??
+% √©?Œº??‚Ä∞√©?Œº√®??
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{STAT 5244 -- Unsupervised Learning}
@@ -29,7 +29,7 @@
 \cfoot{\thepage\ of \pageref{LastPage}}
 
 % -------------------------------
-% ??°„?-|??°•?°È?
+% ??¬∞?-|??Àâ?Ôø†?
 % -------------------------------
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -37,11 +37,11 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{remark}{Remark}
 
-% ??°Æ®¶??/???®¶?¶Ã?2°™??°∞
+% ??‚Äò√©??/???√©?Œº?2‚Äî??‚Äú
 \renewcommand{\vec}[1]{\bm{#1}}
 
 % -------------------------------
-% ??°Í???®¶???o?
+% ??Ôø°???√©???o?
 % -------------------------------
 \usepackage{listings}
 \lstset{
@@ -59,14 +59,16 @@
 }
 
 % -------------------------------
-% ?®C???°Í??Ä?°Ï?
+% ?‚Äì???Ôø°??ÔøΩ?¬ß?
 % -------------------------------
 \begin{document}
 
 \begin{center}
-    {\Large \textbf{STAT 5244 -- Unsupervised Learning}}\\[6pt]
-    \textbf{Final Project}\\[6pt]
-    Name: \underline{Chuyang Su} \quad UNI: \underline{cs4570}
+    {\Large \textbf{Style Modeling for NBA Player Performance}\\[6pt]
+    \textbf{STAT 5244 -- Unsupervised Learning Final Project}\\[6pt]}
+    Name: \underline{Chuyang Su} \quad UNI: \underline{cs4570} 
+    \quad \underline{Kangyu Zhao} \quad UNI: \underline{kz2537} \\
+
 \end{center}
 
 \hrule
@@ -102,5 +104,230 @@ In 2D PCA space we color points by quartiles of WS, WS/48, BPM, and VORP (red = 
     \item \textbf{VORP non-monotonicity}: Lowest quartile is not always at small $PC_1$; some high-volume players lag in VORP, while low-volume players are not always most harmful, highlighting replacement-value differences.
     \item \textbf{Star placement matches intuition}: James, Duncan, and Bryant lead on $PC_1$; Curry and Irving peak on $PC_2$. At equal $PC_2$, Curry sits higher on $PC_1$, consistent with high efficiency plus high output.
 \end{itemize}
+
+\section{Model Setup}
+\subsection{Model Overview}
+
+We propose a \emph{Bayesian Dirichlet--Gaussian admixture model}, which can be viewed as a
+\emph{Gaussian mixed-membership model} with Dirichlet-distributed latent proportions.
+From a probabilistic modeling perspective, our approach is closely related to
+Latent Dirichlet Allocation (LDA)--style mixed-membership models, Bayesian Gaussian mixture
+models, and grade-of-membership (GoM) models for multivariate continuous data.
+
+Unlike standard Gaussian mixture models, which enforce a single cluster assignment per
+observation, our model allows each player to be represented as a \emph{convex combination}
+of multiple latent ``styles.'' This design reflects the continuous and overlapping nature
+of player archetypes in professional basketball, where individuals often exhibit hybrid
+roles rather than belonging to a single discrete category.
+
+\vspace{0.5em}
+
+\subsection{Generative Model}
+
+Let $X \in \mathbb{R}^{N \times P}$ denote the standardized feature matrix, where each row
+corresponds to a player and each column corresponds to a performance feature.
+For a fixed number of latent styles $K$, the generative process is defined as:
+\begin{align}
+\theta_n &\sim \mathrm{Dirichlet}(\boldsymbol{\alpha}), \quad n = 1, \dots, N, \\
+\beta_{k,p} &\sim \mathcal{N}(0, \tau_p), 
+\quad k = 1, \dots, K,\; p = 1, \dots, P, \\
+\sigma_p &\sim \mathrm{Half\text{-}Cauchy}(\tau_\sigma), \\
+X_{n,p} \mid \theta_n, \beta, \sigma_p 
+&\sim \mathcal{N}\!\left(
+\sum_{k=1}^{K} \theta_{n,k}\,\beta_{k,p},\; \sigma_p
+\right).
+\end{align}
+
+Here, $\theta_n \in \Delta^{K-1}$ represents the style composition of player $n$,
+lying on the probability simplex.
+The matrix $\beta \in \mathbb{R}^{K \times P}$ encodes latent style-specific feature
+profiles, while $\sigma_p$ captures feature-specific noise and heteroskedasticity.
+
+\vspace{0.5em}
+
+\subsection{Prior Design and Modeling Motivation}
+
+\paragraph{Dirichlet prior on latent proportions.}
+The Dirichlet prior on $\theta_n$ provides a natural inductive bias for mixed-membership
+modeling, enforcing non-negativity and unit-sum constraints on style proportions.
+To mitigate label symmetry and posterior collapse toward uniform assignments, we employ a
+\emph{non-symmetric Dirichlet prior}
+\[
+\boldsymbol{\alpha} = \alpha \cdot \mathbf{w},
+\]
+where $\mathbf{w}$ is a positive, non-uniform weight vector.
+This asymmetry encourages distinct latent roles while preserving model flexibility.
+
+\paragraph{Hierarchical priors on style loadings.}
+Rather than imposing a single global variance on all feature loadings, we introduce
+group-specific scale parameters for different types of features (e.g., counting statistics,
+shooting efficiency metrics, and advanced performance indicators).
+This hierarchical structure reflects domain knowledge about heterogeneous feature variability
+and improves robustness across disparate measurement scales.
+
+\paragraph{Noise scale prior.}
+Feature-specific noise parameters $\sigma_p$ are assigned Half-Cauchy priors, which are
+weakly informative and heavy-tailed.
+This choice allows the model to accommodate residual outliers while avoiding excessive
+regularization of observation noise.
+
+Overall, these priors encode soft structural assumptions---continuous style mixtures,
+heterogeneous feature variability, and asymmetric latent roles---while remaining
+sufficiently flexible for data-driven unsupervised discovery.
+
+\section{Variational Inference and Training}
+
+Exact posterior inference for this model is intractable due to the coupling between
+$\theta$, $\beta$, and $\sigma$.
+We therefore adopt stochastic variational inference (SVI) with a mean-field variational
+family to approximate the true posterior distribution.
+
+Let $z = (\theta, \beta, \sigma)$ denote all latent variables.
+We approximate $p(z \mid X)$ with a variational distribution $q_\phi(z)$ and maximize the
+evidence lower bound (ELBO):
+\begin{equation}
+\mathcal{L}(\phi)
+=
+\mathbb{E}_{q_\phi(z)}\!\left[\log p(X \mid z)\right]
+-
+\mathrm{KL}\!\left(q_\phi(z)\;\|\;p(z)\right).
+\end{equation}
+
+\section{Tuning and Model Criterion.}
+We adopt a staged hyperparameter tuning strategy for the generative style-topic model rather than an exhaustive grid search. 
+The candidate configuration space includes both discrete structural parameters and continuous scale parameters. 
+The number of latent styles is fixed to $K \in \{3,5,7\}$, while the Dirichlet concentration parameter is fixed to $\alpha = 0.5$. 
+To avoid complete prior symmetry across latent styles and improve identifiability, the Dirichlet parameter is multiplied by a fixed weight vector that is linearly spaced between $0.7$ and $1.3$ and normalized to have unit mean; this weighting scheme is held constant throughout all experiments and is not tuned. 
+All continuous prior scale parameters are sampled on the log scale. 
+Specifically, the global style loading prior scale $\tau_\beta$ and the observation noise scale $\tau_\sigma$ are sampled with $\log_{10}$ values in $[-1,1]$, corresponding to a numerical range of approximately $[0.1,10]$. 
+In addition, we introduce three group-specific style loading scales controlling count-based features, proportion-based features, and other advanced metrics, respectively; these group scales are sampled with $\log_{10}$ values in $[-0.7,0.7]$, corresponding to a numerical range of approximately $[0.2,5]$. 
+In the first stage, all candidate configurations are evaluated using three-fold cross-validation with a reduced number of variational inference steps for computational efficiency. 
+Within each fold, the model is fitted three times using different random seeds on the training split; for each fit, we compute the reconstruction mean squared error on the validation split, and convert the training-set style weight matrix into hard cluster assignments by taking the maximum component. 
+Pairwise agreement between repeated fits is then computed and averaged to quantify the stability of the learned latent structure with respect to random initialization. 
+Configurations are ranked primarily by this structural stability criterion, with reconstruction error used as a secondary criterion when stability is comparable. 
+In the second stage, a small subset of configurations passing the first stage is trained once on the full training set for a short duration and evaluated using posterior predictive checks. 
+Posterior predictive replicated data are generated from posterior means and compared with observed data in terms of feature-wise means, standard deviations, quantiles, cross-feature correlation structure, and value diversity; all posterior predictive tail probabilities are aggregated into a single calibration score defined as the average absolute deviation from $0.5$. 
+To assess whether the model captures nontrivial joint structure, we further construct a null model via column-wise permutation of the observed data, compute the same statistics under the null, and define a structural separation score as the mean absolute difference between the model and null posterior predictive results. 
+Only configurations that exhibit both reasonable calibration and clear separation from the null model are retained. 
+In the final stage, the remaining configurations are evaluated using three-fold cross-validation with a larger number of training steps and repeated fits, and the final model is selected by prioritizing maximal structural stability followed by minimal validation reconstruction error.
+
+\begin{table}[h]
+\caption{Hyperparameter tuning results under different model assumptions. 
+Lower CV MSE and PPC (posterior predictive check) score indicate better reconstruction and calibration, 
+while higher PPN (posterior predictive null) separation indicates stronger generative distinguishability.
+Best values are bolded.}
+\label{tab:tuning_results}
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Assumption & $K$ & $\tau_{p}$ & $\tau_{\sigma}$ 
+& CV MSE $\downarrow$ & PPC score $\downarrow$ & PPN sep. $\uparrow$ \\
+\midrule
+H1 (medium styles) & 5 & 8.21 & 0.198 
+& \textbf{0.8424 $\pm$ 0.0939} & \textbf{0.452} & \textbf{0.264} \\
+H2 (fine styles)   & 7 & 6.61 & 0.122 
+& 0.8577 $\pm$ 0.0149 & 0.473 & 0.283 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Results and Discussion}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{Figure/style_radar_plots.png}
+    \caption{Radar plots of posterior mean style prototypes under the best model configuration ($K=5$). 
+    All features are standardized by z-score normalization for interpretability.}
+    \label{fig:style-radar}
+\end{figure}
+\paragraph{Style Interpretation.}
+Figure~\ref{fig:style-radar} displays radar plots of the posterior mean style prototypes, with all features standardized by z-score normalization.
+Style~0 corresponds to low-usage players with limited aggregate impact, exhibiting below-average scoring and impact metrics despite moderate functional contributions such as assists or rebounds.
+Style~1 is characterized by elevated efficiency, most notably a high WS/48, while maintaining low usage and modest box-score production, indicating contributions driven primarily by per-minute efficiency rather than volume.
+Style~2 presents a rebound-focused interior-oriented profile, with strong rebounding and limited playmaking or scoring involvement, representing the most specialized archetype among the learned styles.
+Style~3 captures high-impact per-minute contributors, combining strong efficiency and impact metrics (BPM, VORP, WS/48) with relatively limited playing time, highlighting that efficiency-adjusted impact does not necessarily coincide with high usage.
+In contrast, Style~4 represents high-usage scorers whose statistical output is dominated by scoring volume and minutes played, with only moderate efficiency and impact measures.
+Although these styles are broadly interpretable, notable overlap remains, particularly between low-usage Styles~0 and~1 and between impact-driven Styles~3 and~4, reflecting partial posterior degeneracy in the latent space.
+Consistent with this observation, posterior predictive checks indicate over-smoothing and underestimation of heavy-tailed behavior, motivating the structured extensions introduced latter to encourage stronger separation between styles and to better disentangle usage-driven and efficiency-driven effects.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figure/case_studies.png}
+    \caption{
+    Posterior style mixtures and feature-level reconstructions for representative players.
+    }
+    \label{fig:case-studies}
+\end{figure}
+
+\paragraph{Domain performance and model limitations.}
+Across multiple diagnostics, the model captures coarse-grained structure in NBA player statistics, with interpretable latent styles reflecting distinct co-occurrence patterns among usage, efficiency, and impact-related features.
+Posterior reconstructions align well with observed values for moderate players, indicating adequate performance within the bulk of the data distribution.
+However, posterior predictive checks reveal systematic underestimation of higher-order moments and tail probabilities, and case studies show that superstar-level performances are represented as extreme realizations of existing high-usage styles rather than as distinct archetypes.
+As a result, stylistic overlap persists across efficiency- and impact-driven profiles, suggesting posterior degeneracy in the latent space.
+These findings motivate structured extensions that disentangle usage intensity from efficiency and impact and introduce mechanisms to prevent style collapse when modeling exceptional performance.
+
+\newpage
+
+\section{Appendix: Additional Figures}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figure/pca_explained_variance.png}
+    \caption{PCA explained variance ratio and cumulative explained variance.}
+    \label{fig:pca-explained-variance}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figure/pca_2d_metrics_with_highlights.png}
+    \caption{PCA scatter plots colored by advanced metric quartiles with player highlights.}
+    \label{fig:pca-component-variance}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{Figure/pca_explained_variance.png}
+    \caption{PCA explained variance ratio and cumulative explained variance.}
+    \label{fig:pca-scatter-plots}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figure/pca_scree_plot.png}
+    \caption{PCA scree plot showing the explained variance by each principal component.}
+    \label{fig:pca-scree-plot}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figure/umap_2d_metrics_with_highlights.png}
+    \caption{UMAP scatter plots colored by advanced metric quartiles with player highlights.}
+    \label{fig:ppc-diagnostics}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{Figure/training.png}
+    \caption{
+      Overview of the modeling and inference framework.
+      \textbf{(A)} Schematic illustration of variational inference, where the variational distribution $q(h;\nu)$ is optimized to approximate the exact posterior $p(h\mid x)$ by minimizing the Kullback--Leibler divergence, yielding fitted variational parameters $\nu^\ast$.
+      \textbf{(B)} Graphical model of the latent style mixture framework: each player $n$ is associated with a style mixture $\theta_{n,k}$ over $K$ latent styles, which combine with style-specific feature loadings $\beta_{k,p}$ to generate feature-level means $\mu_{n,p}$; observed standardized features $X_{n,p}$ are then drawn with feature-specific noise $\sigma_p$.
+      \textbf{(C)} Observed versus model-predicted standardized features across players, illustrating that the model captures broad linear trends in the bulk of the data while exhibiting systematic deviations for extreme values, consistent with posterior predictive checks and motivating structured extensions to better capture heavy-tailed behavior.
+      }
+    \label{fig:model-overview}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{Figure/ppc_diagnostics.png}
+    \caption{
+    Posterior predictive checks based on feature-wise tail probabilities.
+    For each feature, the histogram shows the posterior predictive distribution of the tail probability statistic under replicated data, with the observed value indicated by the solid black line and the central 5\%--95\% interval marked by dashed red lines.
+    While several features (e.g., points per 36 minutes, rebounds per 36 minutes, win shares per 48, and average minutes played) exhibit observed tail probabilities consistent with posterior predictive expectations, others display systematic misfit.
+    In particular, assist rate, three-point efficiency, box plus-minus, and value over replacement show observed tail probabilities lying near or outside the predictive mass, indicating underestimation of extreme events.
+    These deviations suggest that the model adequately captures tail behavior for usage-related and aggregate volume statistics, but struggles to represent heavy-tailed performance metrics associated with efficiency and impact.
+    This pattern is consistent with posterior degeneracy in the latent style space and motivates extensions that explicitly separate usage intensity from efficiency and impact, and that relax Gaussian emission assumptions when modeling extreme player performance.
+    }
+    \label{fig:ppc-diagnostics}
+\end{figure}
 
 \end{document}
