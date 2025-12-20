@@ -192,3 +192,212 @@ class CVResult:
         # Initialize dictionary if not provided
         if self.extra_metrics is None:
             self.extra_metrics = {}
+
+
+# ------------------------------------------------------------------------------
+# Posterior Predictive Checking (PPC) + Posterior Predictive Nulls (PPN)
+# Pure NumPy implementation (safe to import anywhere)
+# ------------------------------------------------------------------------------
+
+from typing import Tuple
+
+def _as_np(x):
+    return np.asarray(x)
+
+def predict_mu(theta: np.ndarray, beta: np.ndarray) -> np.ndarray:
+    """mu = theta @ beta, shapes: (N,K)@(K,P)->(N,P)"""
+    theta = _as_np(theta)
+    beta = _as_np(beta)
+    return theta @ beta
+
+def replicate_gaussian(mu: np.ndarray, sigma: np.ndarray, n_rep: int = 200, seed: int = 0) -> np.ndarray:
+    """
+    X_rep ~ Normal(mu, sigma), with featurewise sigma (P,)
+    Returns: (n_rep, N, P)
+    """
+    mu = _as_np(mu)
+    sigma = _as_np(sigma)
+    rng = np.random.default_rng(seed)
+    eps = rng.normal(loc=0.0, scale=sigma[None, :], size=(n_rep, mu.shape[0], mu.shape[1]))
+    return mu[None, :, :] + eps
+
+# --------------------------
+# Discrepancy statistics T(X)
+# --------------------------
+
+def T_feature_moments(X: np.ndarray) -> dict:
+    X = _as_np(X)
+    return {
+        "mean": X.mean(axis=0),
+        "std":  X.std(axis=0),
+        "q05":  np.quantile(X, 0.05, axis=0),
+        "q50":  np.quantile(X, 0.50, axis=0),
+        "q95":  np.quantile(X, 0.95, axis=0),
+    }
+
+def T_feature_mse(X: np.ndarray, mu: np.ndarray) -> np.ndarray:
+    X = _as_np(X); mu = _as_np(mu)
+    return ((X - mu) ** 2).mean(axis=0)
+
+def T_corr_upper(X: np.ndarray) -> np.ndarray:
+    """
+    Flattened upper-triangular of correlation matrix (excluding diagonal).
+    Useful for checking cross-feature structure.
+    """
+    X = _as_np(X)
+    C = np.corrcoef(X, rowvar=False)
+    iu = np.triu_indices(C.shape[0], k=1)
+    return C[iu]
+
+def T_unique_ratio(X: np.ndarray, decimals: int = 2) -> np.ndarray:
+    """
+    Fraction of unique values (after rounding) per feature.
+    Detects discretization/banding effects.
+    """
+    Xr = np.round(_as_np(X), decimals=decimals)
+    return np.array([len(np.unique(Xr[:, p])) / Xr.shape[0] for p in range(Xr.shape[1])])
+
+def ppc_tail_prob(T_obs: np.ndarray, T_rep: np.ndarray) -> np.ndarray:
+    """
+    Elementwise tail prob: P(T_rep >= T_obs). Shapes:
+    - T_obs: (...)
+    - T_rep: (n_rep, ...)
+    """
+    T_obs = _as_np(T_obs)
+    T_rep = _as_np(T_rep)
+    return (T_rep >= T_obs[None, ...]).mean(axis=0)
+
+# --------------------------
+# Null generators (PPN)
+# --------------------------
+
+def null_independent_standard_normal(N: int, P: int, n_rep: int = 200, seed: int = 0) -> np.ndarray:
+    rng = np.random.default_rng(seed)
+    return rng.normal(0.0, 1.0, size=(n_rep, N, P))
+
+def null_column_permutation(X: np.ndarray, n_rep: int = 200, seed: int = 0) -> np.ndarray:
+    """
+    Preserve each feature's marginal distribution, destroy joint structure.
+    """
+    rng = np.random.default_rng(seed)
+    X = _as_np(X)
+    reps = np.empty((n_rep, X.shape[0], X.shape[1]), dtype=X.dtype)
+    for r in range(n_rep):
+        Xp = X.copy()
+        for p in range(X.shape[1]):
+            rng.shuffle(Xp[:, p])
+        reps[r] = Xp
+    return reps
+
+# --------------------------
+# Main suite runner
+# --------------------------
+
+def run_ppc_suite(
+    X_obs: np.ndarray,
+    theta: np.ndarray,
+    beta: np.ndarray,
+    sigma: np.ndarray,
+    n_rep: int = 200,
+    seed: int = 0,
+    compute_unique: bool = True,
+    unique_decimals: int = 2,
+) -> Dict[str, Any]:
+    """
+    PPC using plug-in posterior means:
+      mu = theta @ beta
+      X_rep = mu + N(0, sigma)
+    Returns a structured report with:
+      - observed discrepancies
+      - replicated discrepancies (arrays)
+      - posterior predictive tail probabilities (p-values)
+    """
+    X_obs = _as_np(X_obs)
+    mu = predict_mu(theta, beta)
+    X_rep = replicate_gaussian(mu, sigma, n_rep=n_rep, seed=seed)
+
+    # moments
+    obs_mom = T_feature_moments(X_obs)
+    rep_mom = {k: np.stack([T_feature_moments(X_rep[r])[k] for r in range(n_rep)], axis=0)
+               for k in obs_mom.keys()}
+    p_mom = {k: ppc_tail_prob(obs_mom[k], rep_mom[k]) for k in obs_mom.keys()}
+
+    # correlation upper triangle
+    obs_corr = T_corr_upper(X_obs)
+    rep_corr = np.stack([T_corr_upper(X_rep[r]) for r in range(n_rep)], axis=0)
+    p_corr = ppc_tail_prob(obs_corr, rep_corr)
+
+    # mse (feature-wise)
+    obs_mse = T_feature_mse(X_obs, mu)
+    rep_mse = np.stack([T_feature_mse(X_rep[r], mu) for r in range(n_rep)], axis=0)
+    p_mse = ppc_tail_prob(obs_mse, rep_mse)
+
+    out = {
+        "mu": mu,
+        "obs": {
+            "moments": obs_mom,
+            "corr_upper": obs_corr,
+            "mse_feat": obs_mse,
+        },
+        "rep": {
+            "moments": rep_mom,
+            "corr_upper": rep_corr,
+            "mse_feat": rep_mse,
+        },
+        "p": {
+            "moments": p_mom,
+            "corr_upper": p_corr,
+            "mse_feat": p_mse,
+        },
+        "meta": {
+            "n_rep": n_rep,
+            "seed": seed,
+            "N": int(X_obs.shape[0]),
+            "P": int(X_obs.shape[1]),
+            "K": int(_as_np(beta).shape[0]),
+        },
+    }
+
+    if compute_unique:
+        obs_u = T_unique_ratio(X_obs, decimals=unique_decimals)
+        rep_u = np.stack([T_unique_ratio(X_rep[r], decimals=unique_decimals) for r in range(n_rep)], axis=0)
+        out["obs"]["unique_ratio"] = obs_u
+        out["rep"]["unique_ratio"] = rep_u
+        out["p"]["unique_ratio"] = ppc_tail_prob(obs_u, rep_u)
+        out["meta"]["unique_decimals"] = unique_decimals
+
+    return out
+
+def run_null_suite(
+    X_obs: np.ndarray,
+    null_reps: np.ndarray,
+    unique_decimals: int = 2,
+) -> Dict[str, Any]:
+    """
+    Evaluate discrepancy statistics of observed X under a null replication set.
+    null_reps: (n_rep, N, P)
+    Returns p-values for moments/corr/unique (mse not defined without mu).
+    """
+    X_obs = _as_np(X_obs)
+    null_reps = _as_np(null_reps)
+    n_rep = null_reps.shape[0]
+
+    obs_mom = T_feature_moments(X_obs)
+    rep_mom = {k: np.stack([T_feature_moments(null_reps[r])[k] for r in range(n_rep)], axis=0)
+               for k in obs_mom.keys()}
+    p_mom = {k: ppc_tail_prob(obs_mom[k], rep_mom[k]) for k in obs_mom.keys()}
+
+    obs_corr = T_corr_upper(X_obs)
+    rep_corr = np.stack([T_corr_upper(null_reps[r]) for r in range(n_rep)], axis=0)
+    p_corr = ppc_tail_prob(obs_corr, rep_corr)
+
+    obs_u = T_unique_ratio(X_obs, decimals=unique_decimals)
+    rep_u = np.stack([T_unique_ratio(null_reps[r], decimals=unique_decimals) for r in range(n_rep)], axis=0)
+    p_u = ppc_tail_prob(obs_u, rep_u)
+
+    return {
+        "obs": {"moments": obs_mom, "corr_upper": obs_corr, "unique_ratio": obs_u},
+        "rep": {"moments": rep_mom, "corr_upper": rep_corr, "unique_ratio": rep_u},
+        "p":   {"moments": p_mom, "corr_upper": p_corr, "unique_ratio": p_u},
+        "meta": {"n_rep": int(n_rep), "N": int(X_obs.shape[0]), "P": int(X_obs.shape[1]), "unique_decimals": unique_decimals},
+    }

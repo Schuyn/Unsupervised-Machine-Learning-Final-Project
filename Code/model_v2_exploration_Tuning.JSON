@@ -1,0 +1,822 @@
+
+[CV] Evaluating config 1/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=1.8789852661499484, tau_sigma=0.3463964459891802, tau_beta_count=0.22769994908826544, tau_beta_pct=0.2104450378024628, tau_beta_other=2.7452274629901714)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54071.516
+[TRAIN] step=200, loss=43464.844
+[TRAIN] step=300, loss=39416.258
+[TRAIN] step=400, loss=36350.832
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71561.000
+[TRAIN] step=200, loss=55207.199
+[TRAIN] step=300, loss=53471.152
+[TRAIN] step=400, loss=45666.656
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171321.078
+[TRAIN] step=200, loss=119977.375
+[TRAIN] step=300, loss=105167.289
+[TRAIN] step=400, loss=76020.516
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=1.8789852661499484, tau_sigma=0.3463964459891802, tau_beta_count=0.22769994908826544, tau_beta_pct=0.2104450378024628, tau_beta_other=2.7452274629901714) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 2/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=6.691310059954052, tau_sigma=1.6340733664249774, tau_beta_count=2.095536285820803, tau_beta_pct=1.150999110625682, tau_beta_other=4.065382312289572)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54075.270
+[TRAIN] step=200, loss=43467.605
+[TRAIN] step=300, loss=39419.164
+[TRAIN] step=400, loss=36353.680
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71569.531
+[TRAIN] step=200, loss=55214.648
+[TRAIN] step=300, loss=53478.590
+[TRAIN] step=400, loss=45673.297
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171323.969
+[TRAIN] step=200, loss=119979.383
+[TRAIN] step=300, loss=105169.883
+[TRAIN] step=400, loss=76023.117
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=6.691310059954052, tau_sigma=1.6340733664249774, tau_beta_count=2.095536285820803, tau_beta_pct=1.150999110625682, tau_beta_other=4.065382312289572) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 3/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=4.2825960119971, tau_sigma=0.10126911166161184, tau_beta_count=3.164943687630488, tau_beta_pct=0.22234112840816225, tau_beta_other=2.0966098654234275)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54084.219
+[TRAIN] step=200, loss=43477.820
+[TRAIN] step=300, loss=39429.465
+[TRAIN] step=400, loss=36364.301
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71573.680
+[TRAIN] step=200, loss=55220.281
+[TRAIN] step=300, loss=53484.227
+[TRAIN] step=400, loss=45680.133
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171326.922
+[TRAIN] step=200, loss=119983.641
+[TRAIN] step=300, loss=105173.977
+[TRAIN] step=400, loss=76028.086
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=4.2825960119971, tau_sigma=0.10126911166161184, tau_beta_count=3.164943687630488, tau_beta_pct=0.22234112840816225, tau_beta_other=2.0966098654234275) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 4/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.2245490599131724, tau_sigma=5.325468800563892, tau_beta_count=1.1429986260501186, tau_beta_pct=0.5243202688808154, tau_beta_other=0.7794030656372142)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54077.734
+[TRAIN] step=200, loss=43469.949
+[TRAIN] step=300, loss=39422.121
+[TRAIN] step=400, loss=36356.805
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71571.195
+[TRAIN] step=200, loss=55217.121
+[TRAIN] step=300, loss=53481.586
+[TRAIN] step=400, loss=45676.008
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171329.656
+[TRAIN] step=200, loss=119985.367
+[TRAIN] step=300, loss=105175.938
+[TRAIN] step=400, loss=76028.773
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.2245490599131724, tau_sigma=5.325468800563892, tau_beta_count=1.1429986260501186, tau_beta_pct=0.5243202688808154, tau_beta_other=0.7794030656372142) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 5/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.11393032658242408, tau_sigma=0.17724196368997142, tau_beta_count=1.7333017702531524, tau_beta_pct=1.6071829489130625, tau_beta_other=1.4505715522186913)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54077.793
+[TRAIN] step=200, loss=43471.008
+[TRAIN] step=300, loss=39422.629
+[TRAIN] step=400, loss=36357.430
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71564.719
+[TRAIN] step=200, loss=55211.781
+[TRAIN] step=300, loss=53475.844
+[TRAIN] step=400, loss=45671.672
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171322.703
+[TRAIN] step=200, loss=119979.555
+[TRAIN] step=300, loss=105169.555
+[TRAIN] step=400, loss=76023.234
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.11393032658242408, tau_sigma=0.17724196368997142, tau_beta_count=1.7333017702531524, tau_beta_pct=1.6071829489130625, tau_beta_other=1.4505715522186913) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 6/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.5852684435879781, tau_sigma=9.872334718899557, tau_beta_count=4.711611512567207, tau_beta_pct=1.8186904163398732, tau_beta_other=1.6242130170821432)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54082.375
+[TRAIN] step=200, loss=43474.375
+[TRAIN] step=300, loss=39426.723
+[TRAIN] step=400, loss=36361.520
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71578.180
+[TRAIN] step=200, loss=55223.574
+[TRAIN] step=300, loss=53487.949
+[TRAIN] step=400, loss=45682.379
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171332.812
+[TRAIN] step=200, loss=119988.328
+[TRAIN] step=300, loss=105179.031
+[TRAIN] step=400, loss=76031.844
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.5852684435879781, tau_sigma=9.872334718899557, tau_beta_count=4.711611512567207, tau_beta_pct=1.8186904163398732, tau_beta_other=1.6242130170821432) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 7/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=2.3817351228439656, tau_sigma=0.5995740775500543, tau_beta_count=0.3084147265161763, tau_beta_pct=2.042131367763093, tau_beta_other=1.0851656834400563)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54070.320
+[TRAIN] step=200, loss=43462.859
+[TRAIN] step=300, loss=39414.285
+[TRAIN] step=400, loss=36348.875
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71561.609
+[TRAIN] step=200, loss=55207.191
+[TRAIN] step=300, loss=53470.957
+[TRAIN] step=400, loss=45666.227
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171319.438
+[TRAIN] step=200, loss=119975.438
+[TRAIN] step=300, loss=105165.414
+[TRAIN] step=400, loss=76018.508
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=2.3817351228439656, tau_sigma=0.5995740775500543, tau_beta_count=0.3084147265161763, tau_beta_pct=2.042131367763093, tau_beta_other=1.0851656834400563) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 8/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.4173339838585536, tau_sigma=0.9368514162695847, tau_beta_count=3.509804836462068, tau_beta_pct=4.051920561261082, tau_beta_other=0.6322855771636156)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54070.801
+[TRAIN] step=200, loss=43462.867
+[TRAIN] step=300, loss=39414.289
+[TRAIN] step=400, loss=36348.836
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71561.891
+[TRAIN] step=200, loss=55207.461
+[TRAIN] step=300, loss=53471.113
+[TRAIN] step=400, loss=45666.156
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171316.453
+[TRAIN] step=200, loss=119972.391
+[TRAIN] step=300, loss=105162.531
+[TRAIN] step=400, loss=76015.648
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=0.4173339838585536, tau_sigma=0.9368514162695847, tau_beta_count=3.509804836462068, tau_beta_pct=4.051920561261082, tau_beta_other=0.6322855771636156) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 9/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=1.3901435898886447, tau_sigma=0.44028995986175107, tau_beta_count=1.3552519545037707, tau_beta_pct=0.593028705298496, tau_beta_other=0.7051257923319804)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54071.469
+[TRAIN] step=200, loss=43464.152
+[TRAIN] step=300, loss=39415.566
+[TRAIN] step=400, loss=36350.180
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71560.984
+[TRAIN] step=200, loss=55207.012
+[TRAIN] step=300, loss=53470.766
+[TRAIN] step=400, loss=45666.219
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171317.234
+[TRAIN] step=200, loss=119973.367
+[TRAIN] step=300, loss=105163.352
+[TRAIN] step=400, loss=76016.594
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=1.3901435898886447, tau_sigma=0.44028995986175107, tau_beta_count=1.3552519545037707, tau_beta_pct=0.593028705298496, tau_beta_other=0.7051257923319804) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 10/30: StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=6.033213636835237, tau_sigma=0.2846526210270597, tau_beta_count=1.487517222026572, tau_beta_pct=0.2615902066916011, tau_beta_other=2.9221452988740153)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=54076.594
+[TRAIN] step=200, loss=43469.762
+[TRAIN] step=300, loss=39421.270
+[TRAIN] step=400, loss=36355.957
+[CV]    Fold 1 MSE = 1.0560
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=71566.922
+[TRAIN] step=200, loss=55213.023
+[TRAIN] step=300, loss=53476.898
+[TRAIN] step=400, loss=45672.500
+[CV]    Fold 2 MSE = 1.3513
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=171321.328
+[TRAIN] step=200, loss=119977.523
+[TRAIN] step=300, loss=105167.734
+[TRAIN] step=400, loss=76021.352
+[CV]    Fold 3 MSE = 1.0687
+[CV] Config StyleModelConfig(K=3, alpha=0.5, alpha_w=Array([0.7, 1. , 1.3], dtype=float32), tau_beta=6.033213636835237, tau_sigma=0.2846526210270597, tau_beta_count=1.487517222026572, tau_beta_pct=0.2615902066916011, tau_beta_other=2.9221452988740153) -> mean MSE = 1.1587 ± 0.1363
+
+[CV] Evaluating config 11/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=3.751427994740969, tau_sigma=0.30111950372417434, tau_beta_count=3.3657195326273284, tau_beta_pct=0.2409879063959931, tau_beta_other=0.589608702188747)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66821.688
+[TRAIN] step=200, loss=53111.824
+[TRAIN] step=300, loss=46136.863
+[TRAIN] step=400, loss=42327.500
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64092.723
+[TRAIN] step=200, loss=51639.953
+[TRAIN] step=300, loss=48829.281
+[TRAIN] step=400, loss=45099.199
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118012.961
+[TRAIN] step=200, loss=90196.656
+[TRAIN] step=300, loss=80840.297
+[TRAIN] step=400, loss=63784.707
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=3.751427994740969, tau_sigma=0.30111950372417434, tau_beta_count=3.3657195326273284, tau_beta_pct=0.2409879063959931, tau_beta_other=0.589608702188747) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 12/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.19978318559628794, tau_sigma=0.7955706141643024, tau_beta_count=2.5992854658704228, tau_beta_pct=0.41966146520418024, tau_beta_other=0.23595534598032505)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66819.727
+[TRAIN] step=200, loss=53109.266
+[TRAIN] step=300, loss=46134.145
+[TRAIN] step=400, loss=42324.555
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64090.051
+[TRAIN] step=200, loss=51637.234
+[TRAIN] step=300, loss=48826.559
+[TRAIN] step=400, loss=45095.969
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118013.258
+[TRAIN] step=200, loss=90197.094
+[TRAIN] step=300, loss=80840.680
+[TRAIN] step=400, loss=63784.582
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.19978318559628794, tau_sigma=0.7955706141643024, tau_beta_count=2.5992854658704228, tau_beta_pct=0.41966146520418024, tau_beta_other=0.23595534598032505) -> mean MSE = 0.9542 ± 0.1056
+
+[CV] Evaluating config 13/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.6443230671751873, tau_sigma=0.24947445872003463, tau_beta_count=0.2673340414117459, tau_beta_pct=1.2955832971367427, tau_beta_other=0.522606233959675)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66820.477
+[TRAIN] step=200, loss=53110.496
+[TRAIN] step=300, loss=46135.668
+[TRAIN] step=400, loss=42326.422
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64090.242
+[TRAIN] step=200, loss=51637.766
+[TRAIN] step=300, loss=48827.320
+[TRAIN] step=400, loss=45097.320
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118014.000
+[TRAIN] step=200, loss=90198.031
+[TRAIN] step=300, loss=80841.422
+[TRAIN] step=400, loss=63785.730
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.6443230671751873, tau_sigma=0.24947445872003463, tau_beta_count=0.2673340414117459, tau_beta_pct=1.2955832971367427, tau_beta_other=0.522606233959675) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 14/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=2.207952651476582, tau_sigma=0.2506287499128497, tau_beta_count=4.158707299782561, tau_beta_pct=0.6473724830910221, tau_beta_other=0.2803453722121931)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66823.328
+[TRAIN] step=200, loss=53113.199
+[TRAIN] step=300, loss=46138.332
+[TRAIN] step=400, loss=42329.047
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64093.621
+[TRAIN] step=200, loss=51641.059
+[TRAIN] step=300, loss=48830.355
+[TRAIN] step=400, loss=45100.371
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118012.289
+[TRAIN] step=200, loss=90196.133
+[TRAIN] step=300, loss=80839.773
+[TRAIN] step=400, loss=63784.312
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=2.207952651476582, tau_sigma=0.2506287499128497, tau_beta_count=4.158707299782561, tau_beta_pct=0.6473724830910221, tau_beta_other=0.2803453722121931) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 15/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=1.8122424665646286, tau_sigma=7.150050449800742, tau_beta_count=0.8251407140929716, tau_beta_pct=4.329389815449659, tau_beta_other=0.9996641994040399)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66826.781
+[TRAIN] step=200, loss=53115.898
+[TRAIN] step=300, loss=46141.852
+[TRAIN] step=400, loss=42332.484
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64104.402
+[TRAIN] step=200, loss=51650.688
+[TRAIN] step=300, loss=48840.695
+[TRAIN] step=400, loss=45109.582
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118026.148
+[TRAIN] step=200, loss=90209.781
+[TRAIN] step=300, loss=80853.953
+[TRAIN] step=400, loss=63797.293
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=1.8122424665646286, tau_sigma=7.150050449800742, tau_beta_count=0.8251407140929716, tau_beta_pct=4.329389815449659, tau_beta_other=0.9996641994040399) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 16/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.7086915421096945, tau_sigma=1.7395098970283307, tau_beta_count=4.933272522805424, tau_beta_pct=4.251294049846978, tau_beta_other=0.8791504344094402)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66818.688
+[TRAIN] step=200, loss=53107.688
+[TRAIN] step=300, loss=46132.934
+[TRAIN] step=400, loss=42323.367
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64093.031
+[TRAIN] step=200, loss=51639.402
+[TRAIN] step=300, loss=48828.871
+[TRAIN] step=400, loss=45098.008
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118013.062
+[TRAIN] step=200, loss=90196.594
+[TRAIN] step=300, loss=80840.531
+[TRAIN] step=400, loss=63784.277
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.7086915421096945, tau_sigma=1.7395098970283307, tau_beta_count=4.933272522805424, tau_beta_pct=4.251294049846978, tau_beta_other=0.8791504344094402) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 17/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=3.276858517813132, tau_sigma=0.9882012319599214, tau_beta_count=1.0990995353718775, tau_beta_pct=2.512464771406779, tau_beta_other=0.7594832306372533)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66818.266
+[TRAIN] step=200, loss=53107.730
+[TRAIN] step=300, loss=46132.758
+[TRAIN] step=400, loss=42323.156
+[CV]    Fold 1 MSE = 1.1002
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64092.078
+[TRAIN] step=200, loss=51638.449
+[TRAIN] step=300, loss=48827.742
+[TRAIN] step=400, loss=45097.094
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118013.102
+[TRAIN] step=200, loss=90196.648
+[TRAIN] step=300, loss=80840.383
+[TRAIN] step=400, loss=63784.262
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=3.276858517813132, tau_sigma=0.9882012319599214, tau_beta_count=1.0990995353718775, tau_beta_pct=2.512464771406779, tau_beta_other=0.7594832306372533) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 18/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=2.944198882863796, tau_sigma=2.644147974840965, tau_beta_count=4.02609076290096, tau_beta_pct=0.2890052197054707, tau_beta_other=2.0922865531391093)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66820.648
+[TRAIN] step=200, loss=53110.191
+[TRAIN] step=300, loss=46135.574
+[TRAIN] step=400, loss=42325.996
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64096.773
+[TRAIN] step=200, loss=51643.039
+[TRAIN] step=300, loss=48832.797
+[TRAIN] step=400, loss=45101.789
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118017.836
+[TRAIN] step=200, loss=90201.211
+[TRAIN] step=300, loss=80845.383
+[TRAIN] step=400, loss=63789.098
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=2.944198882863796, tau_sigma=2.644147974840965, tau_beta_count=4.02609076290096, tau_beta_pct=0.2890052197054707, tau_beta_other=2.0922865531391093) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 19/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=7.158925736252973, tau_sigma=8.626852643381275, tau_beta_count=0.20921307702296033, tau_beta_pct=3.2292087927410327, tau_beta_other=4.717077983074876)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66831.523
+[TRAIN] step=200, loss=53120.922
+[TRAIN] step=300, loss=46146.891
+[TRAIN] step=400, loss=42337.496
+[CV]    Fold 1 MSE = 1.1003
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64109.922
+[TRAIN] step=200, loss=51656.141
+[TRAIN] step=300, loss=48846.184
+[TRAIN] step=400, loss=45115.055
+[CV]    Fold 2 MSE = 0.9078
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118031.875
+[TRAIN] step=200, loss=90215.523
+[TRAIN] step=300, loss=80859.703
+[TRAIN] step=400, loss=63803.020
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=7.158925736252973, tau_sigma=8.626852643381275, tau_beta_count=0.20921307702296033, tau_beta_pct=3.2292087927410327, tau_beta_other=4.717077983074876) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 20/30: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=8.211459575535281, tau_sigma=0.19839376736554734, tau_beta_count=4.588601464064404, tau_beta_pct=3.514874136078857, tau_beta_other=2.8269840524559684)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=66830.078
+[TRAIN] step=200, loss=53120.449
+[TRAIN] step=300, loss=46145.621
+[TRAIN] step=400, loss=42336.348
+[CV]    Fold 1 MSE = 1.1002
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=64101.762
+[TRAIN] step=200, loss=51649.117
+[TRAIN] step=300, loss=48838.473
+[TRAIN] step=400, loss=45108.547
+[CV]    Fold 2 MSE = 0.9077
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=118020.781
+[TRAIN] step=200, loss=90204.672
+[TRAIN] step=300, loss=80848.383
+[TRAIN] step=400, loss=63793.078
+[CV]    Fold 3 MSE = 0.8544
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=8.211459575535281, tau_sigma=0.19839376736554734, tau_beta_count=4.588601464064404, tau_beta_pct=3.514874136078857, tau_beta_other=2.8269840524559684) -> mean MSE = 0.9541 ± 0.1056
+
+[CV] Evaluating config 21/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.9119601211802475, tau_sigma=0.29157201573491465, tau_beta_count=2.646261815857403, tau_beta_pct=3.916897652506449, tau_beta_other=0.47052465096196877)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68280.500
+[TRAIN] step=200, loss=55340.305
+[TRAIN] step=300, loss=49515.438
+[TRAIN] step=400, loss=45642.113
+[CV]    Fold 1 MSE = 1.0174
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69791.125
+[TRAIN] step=200, loss=57532.762
+[TRAIN] step=300, loss=54541.547
+[TRAIN] step=400, loss=49054.852
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117824.875
+[TRAIN] step=200, loss=90906.594
+[TRAIN] step=300, loss=80461.562
+[TRAIN] step=400, loss=65029.520
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.9119601211802475, tau_sigma=0.29157201573491465, tau_beta_count=2.646261815857403, tau_beta_pct=3.916897652506449, tau_beta_other=0.47052465096196877) -> mean MSE = 0.9727 ± 0.0330
+
+[CV] Evaluating config 22/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.1963790935917402, tau_sigma=0.7682554643764793, tau_beta_count=4.012584972747857, tau_beta_pct=0.2273604895298482, tau_beta_other=2.1125581587542706)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68276.086
+[TRAIN] step=200, loss=55336.102
+[TRAIN] step=300, loss=49510.988
+[TRAIN] step=400, loss=45637.254
+[CV]    Fold 1 MSE = 1.0176
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69788.094
+[TRAIN] step=200, loss=57529.242
+[TRAIN] step=300, loss=54538.129
+[TRAIN] step=400, loss=49050.973
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117825.141
+[TRAIN] step=200, loss=90906.500
+[TRAIN] step=300, loss=80461.562
+[TRAIN] step=400, loss=65029.250
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.1963790935917402, tau_sigma=0.7682554643764793, tau_beta_count=4.012584972747857, tau_beta_pct=0.2273604895298482, tau_beta_other=2.1125581587542706) -> mean MSE = 0.9727 ± 0.0331
+
+[CV] Evaluating config 23/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.693349071249671, tau_sigma=0.11395430329268387, tau_beta_count=2.027251740512495, tau_beta_pct=0.2100817958868199, tau_beta_other=2.2968434926707455)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68286.570
+[TRAIN] step=200, loss=55347.426
+[TRAIN] step=300, loss=49522.543
+[TRAIN] step=400, loss=45649.156
+[CV]    Fold 1 MSE = 1.0176
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69796.656
+[TRAIN] step=200, loss=57538.801
+[TRAIN] step=300, loss=54547.840
+[TRAIN] step=400, loss=49061.434
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117831.891
+[TRAIN] step=200, loss=90914.070
+[TRAIN] step=300, loss=80469.148
+[TRAIN] step=400, loss=65037.531
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.693349071249671, tau_sigma=0.11395430329268387, tau_beta_count=2.027251740512495, tau_beta_pct=0.2100817958868199, tau_beta_other=2.2968434926707455) -> mean MSE = 0.9727 ± 0.0331
+
+[CV] Evaluating config 24/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.0605165406999757, tau_sigma=7.2145366103678565, tau_beta_count=0.2468968194906654, tau_beta_pct=3.004998028829683, tau_beta_other=0.24738081289046185)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68284.523
+[TRAIN] step=200, loss=55343.547
+[TRAIN] step=300, loss=49519.730
+[TRAIN] step=400, loss=45646.441
+[CV]    Fold 1 MSE = 1.0174
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69801.602
+[TRAIN] step=200, loss=57542.453
+[TRAIN] step=300, loss=54551.918
+[TRAIN] step=400, loss=49064.156
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117838.625
+[TRAIN] step=200, loss=90920.078
+[TRAIN] step=300, loss=80475.492
+[TRAIN] step=400, loss=65042.805
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.0605165406999757, tau_sigma=7.2145366103678565, tau_beta_count=0.2468968194906654, tau_beta_pct=3.004998028829683, tau_beta_other=0.24738081289046185) -> mean MSE = 0.9727 ± 0.0330
+
+[CV] Evaluating config 25/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.4882249365044848, tau_sigma=0.7254332607688376, tau_beta_count=4.49248786935388, tau_beta_pct=1.2221501885870476, tau_beta_other=0.4596321835076682)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68276.562
+[TRAIN] step=200, loss=55336.180
+[TRAIN] step=300, loss=49511.117
+[TRAIN] step=400, loss=45637.473
+[CV]    Fold 1 MSE = 1.0175
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69787.961
+[TRAIN] step=200, loss=57529.141
+[TRAIN] step=300, loss=54537.840
+[TRAIN] step=400, loss=49050.684
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117822.758
+[TRAIN] step=200, loss=90904.312
+[TRAIN] step=300, loss=80459.328
+[TRAIN] step=400, loss=65027.008
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.4882249365044848, tau_sigma=0.7254332607688376, tau_beta_count=4.49248786935388, tau_beta_pct=1.2221501885870476, tau_beta_other=0.4596321835076682) -> mean MSE = 0.9727 ± 0.0331
+
+[CV] Evaluating config 26/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.3043346685336021, tau_sigma=5.973606918604027, tau_beta_count=0.4132541273784237, tau_beta_pct=0.2981100299484119, tau_beta_other=0.505432378499803)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68284.156
+[TRAIN] step=200, loss=55343.594
+[TRAIN] step=300, loss=49519.613
+[TRAIN] step=400, loss=45646.145
+[CV]    Fold 1 MSE = 1.0176
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69799.234
+[TRAIN] step=200, loss=57540.582
+[TRAIN] step=300, loss=54550.289
+[TRAIN] step=400, loss=49062.484
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117838.820
+[TRAIN] step=200, loss=90920.391
+[TRAIN] step=300, loss=80475.773
+[TRAIN] step=400, loss=65043.121
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.3043346685336021, tau_sigma=5.973606918604027, tau_beta_count=0.4132541273784237, tau_beta_pct=0.2981100299484119, tau_beta_other=0.505432378499803) -> mean MSE = 0.9727 ± 0.0331
+
+[CV] Evaluating config 27/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.4867780118187488, tau_sigma=1.282865141104657, tau_beta_count=2.71390778160071, tau_beta_pct=1.2152519673215305, tau_beta_other=0.5055797842142765)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68276.125
+[TRAIN] step=200, loss=55335.375
+[TRAIN] step=300, loss=49510.551
+[TRAIN] step=400, loss=45636.949
+[CV]    Fold 1 MSE = 1.0174
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69789.930
+[TRAIN] step=200, loss=57530.688
+[TRAIN] step=300, loss=54539.508
+[TRAIN] step=400, loss=49052.121
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117824.609
+[TRAIN] step=200, loss=90905.875
+[TRAIN] step=300, loss=80461.078
+[TRAIN] step=400, loss=65028.711
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.4867780118187488, tau_sigma=1.282865141104657, tau_beta_count=2.71390778160071, tau_beta_pct=1.2152519673215305, tau_beta_other=0.5055797842142765) -> mean MSE = 0.9727 ± 0.0330
+
+[CV] Evaluating config 28/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.6695649098822265, tau_sigma=4.3275484811873905, tau_beta_count=1.5035194387309352, tau_beta_pct=4.3924689458536195, tau_beta_other=0.6563963773664232)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68280.867
+[TRAIN] step=200, loss=55339.875
+[TRAIN] step=300, loss=49515.812
+[TRAIN] step=400, loss=45642.441
+[CV]    Fold 1 MSE = 1.0174
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69797.469
+[TRAIN] step=200, loss=57538.289
+[TRAIN] step=300, loss=54547.539
+[TRAIN] step=400, loss=49059.816
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117833.047
+[TRAIN] step=200, loss=90914.422
+[TRAIN] step=300, loss=80469.758
+[TRAIN] step=400, loss=65037.113
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=0.6695649098822265, tau_sigma=4.3275484811873905, tau_beta_count=1.5035194387309352, tau_beta_pct=4.3924689458536195, tau_beta_other=0.6563963773664232) -> mean MSE = 0.9727 ± 0.0330
+
+[CV] Evaluating config 29/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.2741572245398474, tau_sigma=1.5411623940103203, tau_beta_count=3.0733193588344125, tau_beta_pct=0.318906193259203, tau_beta_other=0.7398002460944132)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68276.148
+[TRAIN] step=200, loss=55335.625
+[TRAIN] step=300, loss=49510.781
+[TRAIN] step=400, loss=45637.066
+[CV]    Fold 1 MSE = 1.0176
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69789.609
+[TRAIN] step=200, loss=57530.555
+[TRAIN] step=300, loss=54539.496
+[TRAIN] step=400, loss=49052.023
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117825.844
+[TRAIN] step=200, loss=90907.148
+[TRAIN] step=300, loss=80462.336
+[TRAIN] step=400, loss=65029.914
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=1.2741572245398474, tau_sigma=1.5411623940103203, tau_beta_count=3.0733193588344125, tau_beta_pct=0.318906193259203, tau_beta_other=0.7398002460944132) -> mean MSE = 0.9727 ± 0.0331
+
+[CV] Evaluating config 30/30: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=6.605685963226968, tau_sigma=0.12193651460781776, tau_beta_count=2.8300153572374125, tau_beta_pct=0.761268136318504, tau_beta_other=2.8955134017723694)
+[CV]  Fold 1/3
+[TRAIN] step=100, loss=68289.852
+[TRAIN] step=200, loss=55350.469
+[TRAIN] step=300, loss=49525.707
+[TRAIN] step=400, loss=45652.477
+[CV]    Fold 1 MSE = 1.0174
+[CV]  Fold 2/3
+[TRAIN] step=100, loss=69801.383
+[TRAIN] step=200, loss=57543.215
+[TRAIN] step=300, loss=54552.215
+[TRAIN] step=400, loss=49065.824
+[CV]    Fold 2 MSE = 0.9387
+[CV]  Fold 3/3
+[TRAIN] step=100, loss=117834.266
+[TRAIN] step=200, loss=90916.227
+[TRAIN] step=300, loss=80471.508
+[TRAIN] step=400, loss=65040.023
+[CV]    Fold 3 MSE = 0.9619
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=6.605685963226968, tau_sigma=0.12193651460781776, tau_beta_count=2.8300153572374125, tau_beta_pct=0.761268136318504, tau_beta_other=2.8955134017723694) -> mean MSE = 0.9726 ± 0.0330
+
+[Stage-1] Cheap CV (sorted by ARI then MSE)
+K= 5 alpha=0.5 tau_beta=8.21 tau_sigma=0.198 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=3.28 tau_sigma=0.988 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=3.75 tau_sigma=0.301 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=7.16 tau_sigma=8.63 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=2.21 tau_sigma=0.251 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=1.81 tau_sigma=7.15 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=2.94 tau_sigma=2.64 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=0.709 tau_sigma=1.74 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=0.644 tau_sigma=0.249 | MSE=0.9541±0.1056 | ARI=nan
+K= 5 alpha=0.5 tau_beta=0.2 tau_sigma=0.796 | MSE=0.9542±0.1056 | ARI=nan
+[TRAIN] step=200, loss=65920.977
+[TRAIN] step=400, loss=58757.309
+[TRAIN] step=600, loss=48224.594
+[TRAIN] step=200, loss=114563.258
+[TRAIN] step=400, loss=79379.242
+[TRAIN] step=600, loss=62280.574
+[TRAIN] step=200, loss=78880.508
+[TRAIN] step=400, loss=67217.773
+[TRAIN] step=600, loss=58052.387
+[TRAIN] step=200, loss=116809.391
+[TRAIN] step=400, loss=75301.703
+[TRAIN] step=600, loss=65732.383
+[TRAIN] step=200, loss=101511.078
+[TRAIN] step=400, loss=90881.922
+[TRAIN] step=600, loss=67308.992
+[TRAIN] step=200, loss=51322.496
+[TRAIN] step=400, loss=49140.910
+[TRAIN] step=600, loss=42748.898
+[TRAIN] step=200, loss=60534.574
+[TRAIN] step=400, loss=50662.184
+[TRAIN] step=600, loss=48316.496
+[TRAIN] step=200, loss=90199.984
+[TRAIN] step=400, loss=70735.031
+[TRAIN] step=600, loss=64813.762
+[TRAIN] step=200, loss=79246.047
+[TRAIN] step=400, loss=69103.133
+[TRAIN] step=600, loss=52008.055
+[TRAIN] step=200, loss=73867.398
+[TRAIN] step=400, loss=65281.957
+[TRAIN] step=600, loss=53122.332
+[TRAIN] step=200, loss=116959.898
+[TRAIN] step=400, loss=77987.578
+[TRAIN] step=600, loss=70709.555
+[TRAIN] step=200, loss=103139.242
+[TRAIN] step=400, loss=78714.953
+[TRAIN] step=600, loss=65382.684
+
+[Stage-2] PPC/PPN screening results (top kept):
+K= 5 tau_beta=3.28 tau_sigma=0.988 | PPCscore=0.470 (low good) | PPNsep=0.293 (high good)
+K= 7 tau_beta=6.61 tau_sigma=0.122 | PPCscore=0.473 (low good) | PPNsep=0.283 (high good)
+K= 5 tau_beta=8.21 tau_sigma=0.198 | PPCscore=0.484 (low good) | PPNsep=0.269 (high good)
+K= 5 tau_beta=0.644 tau_sigma=0.249 | PPCscore=0.465 (low good) | PPNsep=0.268 (high good)
+K= 5 tau_beta=7.16 tau_sigma=8.63 | PPCscore=0.452 (low good) | PPNsep=0.264 (high good)
+K= 5 tau_beta=0.2 tau_sigma=0.796 | PPCscore=0.485 (low good) | PPNsep=0.262 (high good)
+
+[CV] Evaluating config 1/6: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=3.276858517813132, tau_sigma=0.9882012319599214, tau_beta_count=1.0990995353718775, tau_beta_pct=2.512464771406779, tau_beta_other=0.7594832306372533)
+[CV]  Fold 1/3
+[TRAIN] step=375, loss=49462.016
+[TRAIN] step=750, loss=30276.695
+[TRAIN] step=1125, loss=25247.588
+[TRAIN] step=1500, loss=23162.723
+[CV]    Fold 1 MSE = 0.9709
+[CV]  Fold 2/3
+[TRAIN] step=375, loss=44943.445
+[TRAIN] step=750, loss=31168.066
+[TRAIN] step=1125, loss=28469.445
+[TRAIN] step=1500, loss=24152.814
+[CV]    Fold 2 MSE = 0.8071
+[CV]  Fold 3/3
+[TRAIN] step=375, loss=64558.582
+[TRAIN] step=750, loss=46560.254
+[TRAIN] step=1125, loss=39509.461
+[TRAIN] step=1500, loss=28930.207
+[CV]    Fold 3 MSE = 0.7491
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=3.276858517813132, tau_sigma=0.9882012319599214, tau_beta_count=1.0990995353718775, tau_beta_pct=2.512464771406779, tau_beta_other=0.7594832306372533) -> mean MSE = 0.8424 ± 0.0939
+
+[CV] Evaluating config 2/6: StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=6.605685963226968, tau_sigma=0.12193651460781776, tau_beta_count=2.8300153572374125, tau_beta_pct=0.761268136318504, tau_beta_other=2.8955134017723694)
+[CV]  Fold 1/3
+[TRAIN] step=375, loss=53575.613
+[TRAIN] step=750, loss=33961.254
+[TRAIN] step=1125, loss=28265.932
+[TRAIN] step=1500, loss=25247.199
+[CV]    Fold 1 MSE = 0.8736
+[CV]  Fold 2/3
+[TRAIN] step=375, loss=48558.914
+[TRAIN] step=750, loss=34885.969
+[TRAIN] step=1125, loss=30955.115
+[TRAIN] step=1500, loss=26301.422
+[CV]    Fold 2 MSE = 0.8616
+[CV]  Fold 3/3
+[TRAIN] step=375, loss=66785.758
+[TRAIN] step=750, loss=48448.395
+[TRAIN] step=1125, loss=40251.688
+[TRAIN] step=1500, loss=30489.510
+[CV]    Fold 3 MSE = 0.8378
+[CV] Config StyleModelConfig(K=7, alpha=0.5, alpha_w=Array([0.7, 0.8, 0.9, 1. , 1.1, 1.2, 1.3], dtype=float32), tau_beta=6.605685963226968, tau_sigma=0.12193651460781776, tau_beta_count=2.8300153572374125, tau_beta_pct=0.761268136318504, tau_beta_other=2.8955134017723694) -> mean MSE = 0.8577 ± 0.0149
+
+[CV] Evaluating config 3/6: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=8.211459575535281, tau_sigma=0.19839376736554734, tau_beta_count=4.588601464064404, tau_beta_pct=3.514874136078857, tau_beta_other=2.8269840524559684)
+[CV]  Fold 1/3
+[TRAIN] step=375, loss=49474.754
+[TRAIN] step=750, loss=30290.500
+[TRAIN] step=1125, loss=25261.256
+[TRAIN] step=1500, loss=23176.084
+[CV]    Fold 1 MSE = 0.9709
+[CV]  Fold 2/3
+[TRAIN] step=375, loss=44954.906
+[TRAIN] step=750, loss=31180.133
+[TRAIN] step=1125, loss=28481.355
+[TRAIN] step=1500, loss=24164.676
+[CV]    Fold 2 MSE = 0.8071
+[CV]  Fold 3/3
+[TRAIN] step=375, loss=64567.309
+[TRAIN] step=750, loss=46569.738
+[TRAIN] step=1125, loss=39519.359
+[TRAIN] step=1500, loss=28940.617
+[CV]    Fold 3 MSE = 0.7491
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=8.211459575535281, tau_sigma=0.19839376736554734, tau_beta_count=4.588601464064404, tau_beta_pct=3.514874136078857, tau_beta_other=2.8269840524559684) -> mean MSE = 0.8424 ± 0.0939
+
+[CV] Evaluating config 4/6: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.6443230671751873, tau_sigma=0.24947445872003463, tau_beta_count=0.2673340414117459, tau_beta_pct=1.2955832971367427, tau_beta_other=0.522606233959675)
+[CV]  Fold 1/3
+[TRAIN] step=375, loss=49465.230
+[TRAIN] step=750, loss=30279.734
+[TRAIN] step=1125, loss=25250.160
+[TRAIN] step=1500, loss=23165.426
+[CV]    Fold 1 MSE = 0.9710
+[CV]  Fold 2/3
+[TRAIN] step=375, loss=44943.551
+[TRAIN] step=750, loss=31169.139
+[TRAIN] step=1125, loss=28471.301
+[TRAIN] step=1500, loss=24156.193
+[CV]    Fold 2 MSE = 0.8072
+[CV]  Fold 3/3
+[TRAIN] step=375, loss=64559.996
+[TRAIN] step=750, loss=46561.922
+[TRAIN] step=1125, loss=39511.016
+[TRAIN] step=1500, loss=28931.922
+[CV]    Fold 3 MSE = 0.7492
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.6443230671751873, tau_sigma=0.24947445872003463, tau_beta_count=0.2673340414117459, tau_beta_pct=1.2955832971367427, tau_beta_other=0.522606233959675) -> mean MSE = 0.8424 ± 0.0939
+
+[CV] Evaluating config 5/6: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=7.158925736252973, tau_sigma=8.626852643381275, tau_beta_count=0.20921307702296033, tau_beta_pct=3.2292087927410327, tau_beta_other=4.717077983074876)
+[CV]  Fold 1/3
+[TRAIN] step=375, loss=49476.582
+[TRAIN] step=750, loss=30293.369
+[TRAIN] step=1125, loss=25265.416
+[TRAIN] step=1500, loss=23180.980
+[CV]    Fold 1 MSE = 0.9710
+[CV]  Fold 2/3
+[TRAIN] step=375, loss=44961.523
+[TRAIN] step=750, loss=31187.020
+[TRAIN] step=1125, loss=28488.455
+[TRAIN] step=1500, loss=24171.750
+[CV]    Fold 2 MSE = 0.8071
+[CV]  Fold 3/3
+[TRAIN] step=375, loss=64578.031
+[TRAIN] step=750, loss=46579.855
+[TRAIN] step=1125, loss=39529.273
+[TRAIN] step=1500, loss=28950.512
+[CV]    Fold 3 MSE = 0.7492
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=7.158925736252973, tau_sigma=8.626852643381275, tau_beta_count=0.20921307702296033, tau_beta_pct=3.2292087927410327, tau_beta_other=4.717077983074876) -> mean MSE = 0.8424 ± 0.0939
+
+[CV] Evaluating config 6/6: StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.19978318559628794, tau_sigma=0.7955706141643024, tau_beta_count=2.5992854658704228, tau_beta_pct=0.41966146520418024, tau_beta_other=0.23595534598032505)
+[CV]  Fold 1/3
+[TRAIN] step=375, loss=49463.590
+[TRAIN] step=750, loss=30276.697
+[TRAIN] step=1125, loss=25246.992
+[TRAIN] step=1500, loss=23162.652
+[CV]    Fold 1 MSE = 0.9710
+[CV]  Fold 2/3
+[TRAIN] step=375, loss=44942.074
+[TRAIN] step=750, loss=31167.387
+[TRAIN] step=1125, loss=28469.572
+[TRAIN] step=1500, loss=24154.287
+[CV]    Fold 2 MSE = 0.8072
+[CV]  Fold 3/3
+[TRAIN] step=375, loss=64558.914
+[TRAIN] step=750, loss=46560.656
+[TRAIN] step=1125, loss=39509.656
+[TRAIN] step=1500, loss=28930.805
+[CV]    Fold 3 MSE = 0.7492
+[CV] Config StyleModelConfig(K=5, alpha=0.5, alpha_w=Array([0.7 , 0.85, 1.  , 1.15, 1.3 ], dtype=float32), tau_beta=0.19978318559628794, tau_sigma=0.7955706141643024, tau_beta_count=2.5992854658704228, tau_beta_pct=0.41966146520418024, tau_beta_other=0.23595534598032505) -> mean MSE = 0.8425 ± 0.0939
+
+[Stage-3] Final CV (sorted by ARI then MSE)
+K= 5 alpha=0.5 tau_beta=8.21 tau_sigma=0.198 | MSE=0.8424±0.0939 | ARI=nan
+K= 5 alpha=0.5 tau_beta=3.28 tau_sigma=0.988 | MSE=0.8424±0.0939 | ARI=nan
+K= 5 alpha=0.5 tau_beta=7.16 tau_sigma=8.63 | MSE=0.8424±0.0939 | ARI=nan
+K= 5 alpha=0.5 tau_beta=0.644 tau_sigma=0.249 | MSE=0.8424±0.0939 | ARI=nan
+K= 5 alpha=0.5 tau_beta=0.2 tau_sigma=0.796 | MSE=0.8425±0.0939 | ARI=nan
+K= 7 alpha=0.5 tau_beta=6.61 tau_sigma=0.122 | MSE=0.8577±0.0149 | ARI=nan
+
+[SELECTED] Best config: K=5, alpha=0.5, tau_beta=8.21, tau_sigma=0.198 | MSE=0.8424 | ARI=nan
